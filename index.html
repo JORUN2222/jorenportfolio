@@ -303,7 +303,7 @@
     }
     .about-body {
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
       gap: clamp(40px, 6vw, 96px);
       margin-top: clamp(48px, 6vw, 80px);
       align-items: start;
@@ -360,6 +360,143 @@
     .service.web    { --accent: #28c840; }
     .service.video  { --accent: #ff5f57; }
     .service.social { --accent: #febc2e; }
+
+    .service.ai     { --accent: #7c6cf2; }
+    .about-main .services { margin-top: 40px; }
+
+    /* ── ID card ───────────────────────────────────── */
+    .id-wrap { position: sticky; top: 32px; perspective: 1200px; }
+    .id-card {
+      position: relative;
+      max-width: 340px;
+      padding: 16px 16px 18px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #424249 0%, var(--ink-2) 100%);
+      color: #f4f4f5;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow:
+        0 2px 4px rgba(16,16,24,.07),
+        0 20px 36px -12px rgba(16,16,24,.22),
+        0 56px 100px -32px rgba(16,16,24,.38);
+      transform: rotateX(var(--irx, 0deg)) rotateY(var(--iry, 0deg));
+      transition: transform .6s var(--ease-out);
+      overflow: hidden;
+    }
+    /* light sheen that follows the pointer */
+    .id-card::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(circle at var(--gx, 50%) var(--gy, 0%), rgba(255,255,255,.14), transparent 55%);
+      opacity: 0; transition: opacity .4s var(--ease-out);
+    }
+    .id-card:hover::after { opacity: 1; }
+    .id-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 2px 2px 0; }
+    .id-school { font-size: 11.5px; font-weight: 600; color: #cfcfd5; line-height: 1.3; }
+    .id-type {
+      flex: none; font-size: 11px; font-weight: 700; color: #fff;
+      padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.1);
+    }
+    .id-photo {
+      margin: 14px 0 16px;
+      aspect-ratio: 4 / 5;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #303036;
+    }
+    .id-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+    .id-name { font-family: var(--font-display); font-weight: 700; font-size: 28px; line-height: 1.1; margin: 0 2px; color: #fff; letter-spacing: -0.02em; }
+    .id-role { margin: 4px 2px 0; font-size: 13px; font-weight: 500; color: #cfcfd5; }
+    .id-fields {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px;
+      margin: 16px 2px 0; padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+    .id-fields dt { font-size: 11.5px; color: #b4b4bc; font-weight: 600; margin-bottom: 2px; }
+    .id-fields dd { margin: 0; font-size: 13.5px; font-weight: 600; color: #fff; line-height: 1.35; }
+    .id-foot { margin: 16px 2px 0; }
+    .id-foot .live { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #fff; }
+    .id-foot .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #34d27a; box-shadow: 0 0 0 3px rgba(52,210,122,.22); }
+
+    /* ── Proof wall: real screenshots of each highlight ── */
+    .proof {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+    .pf {
+      position: relative;
+      margin: 0;
+      display: flex; flex-direction: column;
+      padding: 8px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #424249 0%, var(--ink-2) 100%);
+      color: #f4f4f5;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow:
+        0 1px 2px rgba(16,16,24,.06),
+        0 12px 24px -10px rgba(16,16,24,.18),
+        0 36px 70px -28px rgba(16,16,24,.28);
+      transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out);
+    }
+    .pf:hover {
+      z-index: 2;
+      transform: translateY(-8px) scale(1.015);
+      box-shadow:
+        0 2px 4px rgba(16,16,24,.07),
+        0 20px 36px -12px rgba(16,16,24,.24),
+        0 56px 100px -32px rgba(16,16,24,.4);
+    }
+    .pf figcaption { display: flex; flex-direction: column; gap: 2px; padding: 12px 6px 4px; }
+    .pf-figure {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-display); font-weight: 700;
+      font-size: clamp(17px, 1.5vw, 21px); line-height: 1.3; color: #fff;
+      font-variant-numeric: lining-nums;
+    }
+    .pf-figure::before {
+      content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 24%, transparent);
+    }
+    .pf-text { font-size: 13.5px; line-height: 1.55; color: #cfcfd5; }
+    .pf.web    { --accent: #28c840; }
+    .pf.video  { --accent: #ff5f57; }
+    .pf.social { --accent: #febc2e; }
+    .pf.game   { --accent: #7c6cf2; }
+    .pf.learn  { --accent: #b4b4bc; }
+
+    .pf .media { flex: none; }
+    .pf-stack { display: grid; gap: 8px; padding: 8px; background: #f0f2f5; }
+    .pf-stack img { width: 100%; height: auto; border-radius: 8px; object-fit: contain; background: #fff; }
+    .pf-reels { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; padding: 6px; background: #26262b; }
+    .pf-reels img { width: 100%; height: auto; aspect-ratio: 221 / 350; object-fit: cover; border-radius: 8px; }
+    .pf-video { aspect-ratio: 9 / 16; background: #000; }
+    .pf-video video { width: 100%; height: 100%; object-fit: cover; }
+    .pf-wide { aspect-ratio: 16 / 10; }
+    .pf-wide img { object-position: 50% 0; }
+
+    .pf-growth { grid-column: span 4; }
+    .pf-client { grid-column: span 2; grid-row: span 2; }
+    .pf-client .pf-video { flex: 1; aspect-ratio: auto; min-height: 0; }
+    .pf-views  { grid-column: span 4; }
+    .pf-site, .pf-game, .pf-learn { grid-column: span 2; }
+
+    @media (max-width: 1100px) {
+      .proof { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .pf-growth, .pf-views { grid-column: span 2; }
+      .pf-client { grid-column: span 1; grid-row: span 2; }
+      .pf-site, .pf-game, .pf-learn { grid-column: span 1; }
+    }
+    @media (max-width: 900px) {
+      .about-body { grid-template-columns: minmax(0, 1fr); }
+      .id-wrap { position: static; }
+      .id-card { margin: 0 auto; }
+    }
+    @media (max-width: 640px) {
+      .proof { grid-template-columns: minmax(0, 1fr); }
+      .pf-growth, .pf-views, .pf-client, .pf-site, .pf-game, .pf-learn { grid-column: auto; grid-row: auto; }
+      .pf-client .pf-video { aspect-ratio: 9 / 16; }
+    }
 
     .about-block { margin-top: clamp(72px, 8vw, 112px); }
     .sub-title {
@@ -863,12 +1000,12 @@
         <a class="work work-video" href="#projects" data-depth="14">
           <div class="work-body reveal" style="--i:5">
             <div class="media ratio-video" data-hint="Add work/video.mp4">
-              <video src="work/video.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Sample video edit"></video>
+              <video src="work/video.mp4" poster="work/video-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Sample of a client's educational video"></video>
               <span class="live-dot" aria-hidden="true">Playing</span>
             </div>
             <div class="work-cap">
               <span class="work-kind">Video editing</span>
-              <span class="work-meta">Short-form edits</span>
+              <span class="work-meta">Client · Educational video</span>
             </div>
           </div>
         </a>
@@ -889,6 +1026,28 @@
         <p class="about-lead">A jack of all trades, practising every one of them on purpose.</p>
 
         <div class="about-body">
+          <div class="id-wrap">
+            <article class="id-card" aria-label="Joren at a glance">
+              <header class="id-head">
+                <span class="id-school">Bulacan State Agricultural University</span>
+                <span class="id-type">Student</span>
+              </header>
+              <div class="id-photo">
+                <img src="work/joren-portrait.jpg" alt="Joren" onerror="this.onerror=null;this.src='joren.png'" />
+              </div>
+              <p class="id-name">Joren</p>
+              <p class="id-role">Web · Video · Social · AI</p>
+              <dl class="id-fields">
+                <div><dt>Course</dt><dd>BS Information Technology</dd></div>
+                <div><dt>Class of</dt><dd>2027</dd></div>
+                <div><dt>Based in</dt><dd>Bulacan, Philippines</dd></div>
+                <div><dt>Languages</dt><dd>English · Filipino</dd></div>
+              </dl>
+              <footer class="id-foot"><span class="live">Open to work</span></footer>
+            </article>
+          </div>
+
+          <div class="about-main">
           <div class="about-story">
             <p>
               I'm <strong>Joren</strong>, a BS Information Technology student at
@@ -901,14 +1060,10 @@
               practising every skill I pick up, consistently. Right now that means learning
               <strong>Blender</strong> for 3D.
             </p>
-
-            <dl class="facts">
-              <div><dt>Based in</dt><dd>Bulacan, Philippines</dd></div>
-              <div><dt>Languages</dt><dd>English, Filipino</dd></div>
-              <div><dt>Graduating</dt><dd>BSIT, Class of 2027</dd></div>
-              <div><dt>School</dt><dd>Bulacan State Agricultural University</dd></div>
-              <div><dt>Availability</dt><dd class="live">Open to work</dd></div>
-            </dl>
+            <p>
+              I also <strong>work with AI</strong>. Tools like ChatGPT and Claude help me research, draft
+              scripts, plan content and prototype code faster. Then I check and finish everything myself.
+            </p>
           </div>
 
           <ul class="services" aria-label="What I do">
@@ -931,39 +1086,86 @@
                 <h3>Social media growth</h3>
                 <p>Content planning, posting and account growth, taking a page from zero to an audience.</p>
               </div>
-              <div class="uses"><span>Canva</span><span>CapCut</span><span>ChatGPT</span><span>Claude</span></div>
+              <div class="uses"><span>Canva</span><span>CapCut</span><span>Facebook</span><span>TikTok</span></div>
+            </li>
+            <li class="service ai">
+              <div>
+                <h3>AI-assisted work</h3>
+                <p>Research, scripts, content plans and code prototypes, sped up with AI and finished by hand.</p>
+              </div>
+              <div class="uses"><span>ChatGPT</span><span>Claude</span></div>
             </li>
           </ul>
+          </div>
         </div>
 
         <div class="about-block">
           <h3 class="sub-title">Highlights so far</h3>
-          <ul class="highlights">
-            <li class="hl social">
-              <span class="hl-figure">0 → 2.3K</span>
-              <span class="hl-text">followers on a brand-new account, in just a few videos.</span>
-            </li>
-            <li class="hl social">
-              <span class="hl-figure">1M+ views, twice</span>
-              <span class="hl-text">on two separate Facebook pages, each passing a million, plus solid views on TikTok.</span>
-            </li>
-            <li class="hl video">
-              <span class="hl-figure">Client edit</span>
-              <span class="hl-text">a 2-minute educational video, delivered with a positive review.</span>
-            </li>
-            <li class="hl web">
-              <span class="hl-figure">First full website</span>
-              <span class="hl-text">Casa de Bulac, a hostel management system with LMS integration.</span>
-            </li>
-            <li class="hl game">
-              <span class="hl-figure">Echoes of Deception</span>
-              <span class="hl-text">a mystery game made in GameMaker. Search for items, piece together the clues, solve the case.</span>
-            </li>
-            <li class="hl learn">
-              <span class="hl-figure">Now learning</span>
-              <span class="hl-text">Blender, adding 3D to the toolkit.</span>
-            </li>
-          </ul>
+          <div class="proof">
+            <figure class="pf pf-growth social">
+              <div class="media pf-stack" data-hint="Add work/proof screenshots">
+                <img src="work/proof/fb-zycheeee-2.3k.png" alt="Facebook page Zycheeee with 2.3K followers" loading="lazy" />
+                <img src="work/proof/fb-zyche-1.7k.png" alt="Facebook page Zyche with 1.7K followers" loading="lazy" />
+              </div>
+              <figcaption>
+                <span class="pf-figure">0 → 2.3K followers</span>
+                <span class="pf-text">on a brand-new Facebook page, in just a few videos. A second page is already at 1.7K.</span>
+              </figcaption>
+            </figure>
+
+            <figure class="pf pf-client video">
+              <div class="media pf-video" data-hint="Add work/video.mp4">
+                <video src="work/video.mp4" poster="work/video-poster.jpg" controls playsinline preload="none" aria-label="30-second sample of a client's educational video"></video>
+              </div>
+              <figcaption>
+                <span class="pf-figure">Client edit</span>
+                <span class="pf-text">A 2-minute educational video, delivered with a positive review. This is a 30-second sample.</span>
+              </figcaption>
+            </figure>
+
+            <figure class="pf pf-views social">
+              <div class="media pf-reels" data-hint="Add reel screenshots">
+                <img src="work/proof/reel-1.3m.png" alt="Reel with 1.3M views" loading="lazy" />
+                <img src="work/proof/clip-340k.png" alt="Clip with 340.4K views" loading="lazy" />
+                <img src="work/proof/reel-175k.png" alt="Reel with 175K views" loading="lazy" />
+                <img src="work/proof/reel-44k.png" alt="Reel with 44K views" loading="lazy" />
+              </div>
+              <figcaption>
+                <span class="pf-figure">1M+ views</span>
+                <span class="pf-text">My top reel passed 1.3M views, with others at 340K, 175K and 44K.</span>
+              </figcaption>
+            </figure>
+
+            <figure class="pf pf-site web">
+              <div class="media pf-wide" data-hint="Add work/website.png">
+                <img src="work/website.png" alt="Casa de Bulac hostel management system" loading="lazy" />
+              </div>
+              <figcaption>
+                <span class="pf-figure">First full website</span>
+                <span class="pf-text">Casa de Bulac, a hostel management system with LMS integration.</span>
+              </figcaption>
+            </figure>
+
+            <figure class="pf pf-game game">
+              <div class="media pf-wide" data-hint="Add work/echoes.png">
+                <img src="work/echoes.png" alt="Echoes of Deception gameplay" loading="lazy" />
+              </div>
+              <figcaption>
+                <span class="pf-figure">Echoes of Deception</span>
+                <span class="pf-text">A mystery game made in GameMaker. Search for items, piece together the clues, solve the case.</span>
+              </figcaption>
+            </figure>
+
+            <figure class="pf pf-learn learn">
+              <div class="media pf-wide" data-hint="Add work/blender.png">
+                <img src="work/blender.png" alt="A Blender render" loading="lazy" />
+              </div>
+              <figcaption>
+                <span class="pf-figure">Now learning</span>
+                <span class="pf-text">Blender, adding 3D to the toolkit.</span>
+              </figcaption>
+            </figure>
+          </div>
         </div>
 
         <div class="about-block">
@@ -1046,13 +1248,28 @@
 
     // Work samples: missing files show a labelled empty slot instead of a broken image.
     const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    document.querySelectorAll('.showcase .media').forEach(box => {
+    document.querySelectorAll('.showcase .media, .proof .media').forEach(box => {
       const el = box.querySelector('img, video');
       const empty = () => { box.classList.add('is-empty'); el.remove(); };
       el.addEventListener('error', empty);
       if (el.tagName === 'IMG' && el.complete && !el.naturalWidth) empty();
       if (el.tagName === 'VIDEO' && reduceMotion) { el.removeAttribute('autoplay'); el.pause(); el.controls = true; }
     });
+
+    // ID card tilts toward the pointer, with a sheen that follows it.
+    const idCard = document.querySelector('.id-card');
+    if (idCard && !reduceMotion && matchMedia('(pointer: fine)').matches) {
+      idCard.addEventListener('pointermove', e => {
+        const r = idCard.getBoundingClientRect();
+        const nx = (e.clientX - r.left) / r.width - 0.5;
+        const ny = (e.clientY - r.top) / r.height - 0.5;
+        idCard.style.setProperty('--iry', (nx * 14).toFixed(2) + 'deg');
+        idCard.style.setProperty('--irx', (-ny * 12).toFixed(2) + 'deg');
+        idCard.style.setProperty('--gx', ((nx + 0.5) * 100).toFixed(1) + '%');
+        idCard.style.setProperty('--gy', ((ny + 0.5) * 100).toFixed(1) + '%');
+      });
+      idCard.addEventListener('pointerleave', () => ['--iry', '--irx', '--gx', '--gy'].forEach(p => idCard.style.removeProperty(p)));
+    }
 
     // Subtle depth: cards drift with the pointer on wide screens.
     const hero = document.querySelector('.hero');
