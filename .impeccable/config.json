@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "marquee",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-12T01:10:42.367Z",
+        "reason": "user requested: asked for a looping, never-ending sliding tools showcase that stops on hover"
+      }
+    ]
+  }
+}
