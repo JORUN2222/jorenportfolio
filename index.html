@@ -673,6 +673,62 @@
       .pg-video > .pf { max-width: 320px; }
     }
 
+    /* ── Experience: two groups, ruled timeline ──── */
+    .experience {
+      background: var(--paper);
+      padding: 40px clamp(24px, 6vw, 112px) clamp(64px, 7vw, 96px);
+    }
+    .xp-group { margin-top: clamp(40px, 5vw, 64px); }
+    .xp-group:first-of-type { margin-top: 32px; }
+    .xp-list { list-style: none; margin: 0; padding: 0; }
+    .xp {
+      display: grid;
+      grid-template-columns: minmax(130px, 170px) minmax(0, 1fr);
+      column-gap: clamp(20px, 4vw, 48px);
+      padding: 22px 0 26px;
+    }
+    .experience .sec-head { border-bottom: 0; padding-bottom: 0; }
+    .xp-date {
+      margin: 3px 0 0;
+      font-size: 14px; font-weight: 600; color: var(--ink-3);
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+    .xp-body h4 {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: clamp(19px, 1.6vw, 22px); line-height: 1.3; letter-spacing: -0.01em;
+      margin: 0 0 4px;
+    }
+    .xp-org {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px;
+      margin: 0 0 12px; font-size: 15px; font-weight: 600; color: var(--ink-2);
+    }
+    .xp-tag {
+      font-size: 12px; font-weight: 600; color: var(--ink-2);
+      padding: 3px 10px; border-radius: 999px; background: #f2f2f4;
+    }
+    .xp-body ul { margin: 0; padding: 0 0 0 18px; display: grid; gap: 6px; }
+    .xp-body li { color: var(--ink-2); font-size: 15px; line-height: 1.6; padding-left: 2px; }
+    .xp-body li::marker { color: var(--ink-3); }
+    .xp-result {
+      margin: 14px 0 0;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: #f4f4f6;
+      font-size: 14.5px; line-height: 1.55; color: var(--ink-2);
+      max-width: 70ch;
+    }
+    .xp-result strong {
+      display: inline-block; margin-right: 8px;
+      font-family: var(--font-display); font-weight: 700; color: var(--ink);
+    }
+    .xp-body .chips { margin-top: 12px; }
+    @media (max-width: 900px) {
+      .experience { padding: 40px 16px 64px; }
+    }
+    @media (max-width: 640px) {
+      .xp { grid-template-columns: minmax(0, 1fr); row-gap: 6px; }
+    }
+
     .about-block { margin-top: clamp(72px, 8vw, 112px); }
 
     /* ── Client words ──────────────────────────────── */
@@ -1478,6 +1534,128 @@
             </li>
           </ol>
         </div>
+      </div>
+    </section>
+    <section class="experience" id="experience" aria-labelledby="experience-title">
+      <div class="about-inner">
+        <header class="sec-head">
+          <h2 class="section-title" id="experience-title">Experience</h2>
+          <p class="about-lead">At a desk and in the field. Both taught me how to work.</p>
+        </header>
+
+        <!-- Desk, creative and client work -->
+        <section class="xp-group" aria-labelledby="xp-pro">
+          <header class="pg-head">
+            <h3 id="xp-pro">Professional &amp; creative work</h3>
+          </header>
+          <ol class="xp-list">
+            <li class="xp">
+              <p class="xp-date">Oct 2026 – Present</p>
+              <div class="xp-body">
+                <h4>Video Editor</h4>
+                <p class="xp-org">Balai D Agriculturist, Facebook page of Mr. An Jo <span class="xp-tag">Private client</span></p>
+                <ul>
+                  <li>Edit educational Reels about agriculture for the page.</li>
+                  <li>Work in clear steps: plan the edit, check it with the client, edit, deliver, then revise until it's approved.</li>
+                  <li>Source visuals from Pinterest and sound effects from Pixabay.</li>
+                </ul>
+                <p class="xp-result"><strong>Result</strong> Reels I edited reach around 20K–50K views each, with steady engagement.</p>
+                <div class="chips"><span>CapCut</span><span>Pinterest</span><span>Pixabay</span></div>
+              </div>
+            </li>
+
+            <li class="xp">
+              <p class="xp-date">Sep 2025 – Present</p>
+              <div class="xp-body">
+                <h4>Graphic Designer</h4>
+                <p class="xp-org">Marco &amp; Margie's Chicken Dung Dealer · San Ildefonso, Bulacan <span class="xp-tag">Freelance · Part-time</span></p>
+                <ul>
+                  <li>Design and edit the documents the business needs for its operating permit.</li>
+                  <li>Keep the paperwork clean, readable and ready to submit.</li>
+                </ul>
+                <p class="xp-result"><strong>Result</strong> The business got the documents it needed and is still operating and earning today.</p>
+                <div class="chips"><span>Canva</span><span>Photoshop</span></div>
+              </div>
+            </li>
+
+            <li class="xp">
+              <p class="xp-date">Aug 2023 – Present</p>
+              <div class="xp-body">
+                <h4>Student Assistant</h4>
+                <p class="xp-org">University Library, Bulacan State Agricultural University · San Ildefonso, Bulacan <span class="xp-tag">Part-time</span></p>
+                <ul>
+                  <li>Encode book records and reference numbers into the library database.</li>
+                  <li>Log student visitors and help them when a library computer has a problem.</li>
+                  <li>Assist the librarian with whatever is needed, and keep the library clean and organised.</li>
+                </ul>
+                <p class="xp-result"><strong>Result</strong> When deadlines got close, my help meant the library delivered its materials on time.</p>
+                <div class="chips"><span>Excel</span></div>
+              </div>
+            </li>
+
+            <li class="xp">
+              <p class="xp-date">Nov – Dec 2022</p>
+              <div class="xp-body">
+                <h4>Student Tutor</h4>
+                <p class="xp-org">Sapang Putik Elementary School · San Ildefonso, Bulacan <span class="xp-tag">Volunteer</span></p>
+                <ul>
+                  <li>Tutored children who struggled with reading, especially in English.</li>
+                  <li>Illustrated reading materials in Canva to make lessons easier to follow.</li>
+                </ul>
+                <p class="xp-result"><strong>Result</strong> The children learned to read, and their reading comprehension improved.</p>
+                <div class="chips"><span>Canva</span></div>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <!-- Hands-on work -->
+        <section class="xp-group" aria-labelledby="xp-field">
+          <header class="pg-head">
+            <h3 id="xp-field">Hands-on &amp; field work</h3>
+          </header>
+          <ol class="xp-list">
+            <li class="xp">
+              <p class="xp-date">Jul – Aug 2024</p>
+              <div class="xp-body">
+                <h4>Construction Worker</h4>
+                <p class="xp-org">Residential builds <span class="xp-tag">Private clients</span></p>
+                <ul>
+                  <li>Mixed concrete, hauled materials and assisted masons and carpenters on house projects.</li>
+                  <li>Worked full days outdoors, followed instructions closely and stayed safe on site.</li>
+                </ul>
+                <p class="xp-result"><strong>Result</strong> Learned to keep pace with a crew and finish heavy work on schedule.</p>
+              </div>
+            </li>
+
+            <li class="xp">
+              <p class="xp-date">Jul – Aug 2022</p>
+              <div class="xp-body">
+                <h4>Crew Member</h4>
+                <p class="xp-org">Jollibee · San Rafael, Bulacan</p>
+                <ul>
+                  <li>Took orders and served customers at the counter, including during rush hours.</li>
+                  <li>Answered questions and handled concerns politely and quickly.</li>
+                  <li>Worked with the crew to keep orders accurate and moving.</li>
+                </ul>
+                <p class="xp-result"><strong>Result</strong> Became confident talking with all kinds of people, a skill I now use with every client.</p>
+              </div>
+            </li>
+
+            <li class="xp">
+              <p class="xp-date">Since childhood</p>
+              <div class="xp-body">
+                <h4>Rice Farmer</h4>
+                <p class="xp-org">Family farm <span class="xp-tag">Seasonal</span></p>
+                <ul>
+                  <li>Planted rice every planting season to help my family, through my third year of college.</li>
+                  <li>Early mornings and long hours in the field, in any weather.</li>
+                </ul>
+                <p class="xp-result"><strong>Result</strong> Where I learned patience and showing up consistently, the same way I practise every skill today.</p>
+              </div>
+            </li>
+          </ol>
+        </section>
       </div>
     </section>
   </main>
