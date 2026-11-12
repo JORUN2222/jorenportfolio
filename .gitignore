@@ -1,0 +1,11 @@
+# Full-length client video (private, and over GitHub's 100 MB limit).
+# The site only uses the 30-second sample: work/video.mp4
+work/FINALLL.mov
+*.mov
+
+# Personal photos that the page doesn't use
+work/joren-casual-original.jpg
+work/joren-portrait.jpg
+
+# Design tool settings
+.impeccable/
