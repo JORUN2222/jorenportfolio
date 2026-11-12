@@ -1746,6 +1746,12 @@
     .to-top { display: inline-flex; align-items: center; gap: 6px; }
     .to-top svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
     .cf-note.is-sent { color: var(--ink-2); font-weight: 600; }
+
+    /* ═══ Click burst: little blue particles (mouse users only) ═══ */
+    .cursor-burst { display: none; }
+    @media (pointer: fine) {
+      .cursor-burst { display: block; position: fixed; inset: 0; z-index: 9998; pointer-events: none; }
+    }
   </style>
 </head>
 <body>
@@ -3157,6 +3163,49 @@
         measure();
         const g = ground.title();
         if (g && (still || !usable().includes(here))) { put(g.x1, g.y - FOOT); here = 'title'; }
+      });
+    })();
+  </script>
+  <canvas class="cursor-burst" aria-hidden="true"></canvas>
+  <script>
+    // Blue particles burst from the pointer on click (normal cursor stays).
+    (() => {
+      if (!matchMedia('(pointer: fine)').matches) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const cvs = document.querySelector('.cursor-burst');
+      const ctx = cvs.getContext('2d');
+      let parts = [], running = false;
+      const size = () => {
+        const dpr = Math.min(2, devicePixelRatio || 1);
+        cvs.width = innerWidth * dpr; cvs.height = innerHeight * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      };
+      size(); addEventListener('resize', size);
+      const blues = ['#2f5fd0', '#3b82f6', '#60a5fa', '#93c5fd'];
+
+      // Next frame, with a timer backup where animation frames get throttled.
+      const next = (fn) => { let done = false; const go = () => { if (!done) { done = true; fn(); } };
+        requestAnimationFrame(go); setTimeout(go, 34); };
+      const tick = () => {
+        ctx.clearRect(0, 0, innerWidth, innerHeight);
+        parts = parts.filter(p => p.life > 0);
+        for (const p of parts) {
+          p.x += p.vx; p.y += p.vy; p.vx *= 0.92; p.vy = p.vy * 0.92 + 0.12; p.life -= 0.035;
+          ctx.globalAlpha = Math.max(0, p.life);
+          ctx.fillStyle = p.c;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r * (0.6 + p.life * 0.4), 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+        if (parts.length) next(tick); else { ctx.clearRect(0, 0, innerWidth, innerHeight); running = false; }
+      };
+      addEventListener('pointerdown', e => {
+        if (e.button !== 0) return;
+        for (let i = 0, n = 12; i < n; i++) {
+          const a = (i / n) * Math.PI * 2 + Math.random() * 0.4, v = 2.2 + Math.random() * 2.6;
+          parts.push({ x: e.clientX, y: e.clientY, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 0.6,
+                       r: 1.6 + Math.random() * 2.2, life: 1, c: blues[i % blues.length] });
+        }
+        if (!running) { running = true; next(tick); }
       });
     })();
   </script>
