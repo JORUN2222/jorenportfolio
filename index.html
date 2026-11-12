@@ -129,7 +129,7 @@
     }
     .status::before {
       content: ""; width: 7px; height: 7px; border-radius: 50%;
-      background: var(--live); box-shadow: 0 0 0 3px rgba(31,157,85,.18);
+      background: var(--live);
     }
 
     .nav { margin-top: 32px; display: grid; gap: 2px; }
@@ -325,7 +325,7 @@
       hyphens: auto;
     }
     .about-story p:last-child { margin-bottom: 0; }
-    @media (max-width: 640px) { .about-story p { text-align: left; } }
+    @media (max-width: 1199px) { .about-story p { text-align: left; hyphens: manual; } }
 
     /* Services: 2×2 dark cards, same language as the project cards */
     .svc-grid {
@@ -419,7 +419,7 @@
     .facts dt { font-size: 12.5px; font-weight: 600; color: var(--ink-3); margin-bottom: 4px; }
     .facts dd { margin: 0; font-size: 15px; font-weight: 600; color: var(--ink); }
     .facts .live { display: inline-flex; align-items: center; gap: 8px; }
-    .facts .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--live); box-shadow: 0 0 0 3px rgba(31,157,85,.18); }
+    .facts .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--live); }
 
     .services { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
     .service {
@@ -504,7 +504,7 @@
     .id-fields dd { margin: 0; font-size: 13.5px; font-weight: 600; color: #fff; line-height: 1.35; }
     .id-foot { margin: 16px 2px 0; }
     .id-foot .live { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #fff; }
-    .id-foot .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #34d27a; box-shadow: 0 0 0 3px rgba(52,210,122,.22); }
+    .id-foot .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #34d27a; }
 
     /* ── Proof wall: real screenshots of each highlight ── */
     .proof {
@@ -1076,7 +1076,7 @@
     .marquee-track {
       display: flex;
       width: max-content;
-      animation: marquee 48s linear infinite;
+      animation: marquee 110s linear infinite;
     }
     .marquee:hover .marquee-track,
     .marquee:focus-within .marquee-track { animation-play-state: paused; }
@@ -1218,7 +1218,10 @@
       content: ""; position: absolute; left: var(--tail, 24px); bottom: -6px;
       width: 12px; height: 12px; background: var(--ink); transform: rotate(45deg); border-radius: 2px;
     }
-    @media (max-width: 640px) { .buddy, .buddy-bubble { display: none; } }
+    @media (max-width: 640px) {
+      .buddy { width: 34px; height: 34px; }
+      .buddy-bubble { max-width: min(220px, calc(100vw - 32px)); font-size: 13px; padding: 9px 12px; }
+    }
 
     /* ═══ Project cards: dark = headline proof, light = supporting ═══ */
     .pf { border-radius: 24px; padding: 10px; }
@@ -1475,10 +1478,278 @@
         to   { opacity: 1; translate: 0 0; filter: blur(0); }
       }
     }
+
+    /* ── Responsive refinements ─────────────────────── */
+    /* Medium widths: narrower ID card, services list in one column */
+    @media (max-width: 1199px) {
+      .about-body { grid-template-columns: minmax(220px, 260px) minmax(0, 1fr); gap: 32px; }
+      .id-wrap .id-photo { min-height: 240px; }
+      .svc-list { grid-template-columns: minmax(0, 1fr); }
+      .pg-split { grid-template-columns: minmax(0, 1fr); }
+      .pg-split > .pf { max-width: 720px; }
+    }
+    /* Experience table: collapse to two columns before it gets cramped */
+    @media (max-width: 1100px) {
+      .path-row { grid-template-columns: minmax(0, 1fr) auto; }
+      .path-role { grid-column: 1; flex-direction: row; flex-wrap: wrap; align-items: center; }
+      .path-desc { grid-column: 1 / -1; }
+      .path-date { grid-row: 1; grid-column: 2; align-self: start; }
+    }
+    /* Tablets: ID card sits beside a compact facts layout, still readable */
+    @media (max-width: 900px) {
+      .about-body { grid-template-columns: minmax(0, 1fr); }
+      .id-wrap { justify-content: center; }
+      .id-wrap .id-card { flex: 0 1 340px; }
+      .sec-head { align-items: flex-start; }
+      .about-lead { text-align: left; }
+    }
+    /* Phones */
+    @media (max-width: 640px) {
+      .section-title { font-size: clamp(2rem, 9vw, 2.4rem); }
+      .hero { padding: 36px 16px 32px; gap: 28px; }
+      .headline { font-size: clamp(2.3rem, 11vw, 3rem); }
+      .pull { padding-left: 40px; }
+      .pf-big { font-size: clamp(44px, 14vw, 60px); }
+      .step-num { font-size: 64px; margin-bottom: 10px; }
+      .step h3 br { display: none; }
+      .testimonial p { font-size: 1.35rem; }
+      .path-row { padding: 18px 4px; }
+      .tools-head { gap: 8px; }
+    }
+
+    /* About: story sits centred beside the ID card */
+    .about-body { align-items: stretch; }
+    .about-main { display: flex; flex-direction: column; justify-content: center; }
+    @media (max-width: 900px) { .about-main { justify-content: flex-start; } }
+
+    /* Extra square card, tilted into the bottom-left corner */
+    @media (min-width: 1200px) {
+      .work-3d { left: -7%; top: 47%; width: 31%; --z: 30px; z-index: 2; rotate: -7deg; transition: transform .6s var(--ease-out), rotate .6s var(--ease-out); }
+      .work-3d:hover, .work-3d:focus-visible { rotate: 0deg; }
+    }
+    @media (max-width: 1199px) { .work-3d { width: 200px; } }
+
+    /* ═══ Certificates & badges ═══ */
+    .certs { background: var(--surface); padding: 40px clamp(24px, 6vw, 112px) clamp(64px, 7vw, 96px); }
+    .certs .sec-head { border-bottom: 0; padding-bottom: 0; }
+    .badge-strip {
+      display: flex; align-items: center; gap: 18px;
+      margin-top: 28px; padding: 16px 20px 16px 16px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #fbfbfc 0%, #eef0f3 100%);
+      border: 1px solid #e3e4e8;
+      box-shadow: 0 1px 2px rgba(16,16,24,.04), 0 16px 32px -20px rgba(16,16,24,.22);
+      max-width: 640px;
+    }
+    .badge-img { width: 76px; height: 76px; border-radius: 12px; flex: none; box-shadow: 0 1px 2px rgba(16,16,24,.08), 0 8px 18px -10px rgba(16,16,24,.35); }
+    .badge-text { flex: 1; min-width: 0; }
+    .badge-name { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 19px; line-height: 1.3; color: var(--ink); }
+    .badge-meta { margin: 2px 0 0; font-size: 13.5px; color: var(--ink-2); }
+    .badge-strip .path-date { flex: none; }
+
+    .cert-grid {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px; margin-top: 24px; align-items: stretch;
+    }
+    .cert {
+      font: inherit; text-align: left; cursor: zoom-in;
+      appearance: none;
+    }
+    .cert:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+    .cert-media { display: block; aspect-ratio: 1600 / 1084; background: #fff; }
+    .cert-media img { width: 100%; height: 100%; object-fit: cover; }
+    .cert-cap { display: flex; flex-direction: column; gap: 6px; padding: 16px 12px 10px; flex: 1; }
+    .cert-date { margin-top: auto; padding-top: 6px; font-size: 12.5px; font-weight: 700; color: #cfcfd5; }
+    .cert.is-light .cert-date { color: var(--ink-3); }
+
+    .lightbox {
+      padding: 0; border: 0; background: transparent;
+      max-width: min(1100px, 94vw); max-height: 92vh; overflow: visible;
+    }
+    .lightbox::backdrop { background: rgba(14,14,16,.7); backdrop-filter: blur(4px); }
+    .lightbox img { display: block; max-width: 100%; max-height: 88vh; border-radius: 14px; box-shadow: 0 30px 80px -20px rgba(0,0,0,.6); }
+    .lb-close {
+      position: absolute; top: -14px; right: -14px;
+      width: 40px; height: 40px; border-radius: 50%; border: 0;
+      background: #fff; color: var(--ink); cursor: pointer;
+      display: grid; place-items: center;
+      box-shadow: 0 6px 16px -4px rgba(0,0,0,.4);
+    }
+    .lb-close svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; fill: none; }
+
+    @media (max-width: 1100px) { .cert-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 900px) { .certs { padding: 40px 16px 64px; } }
+    @media (max-width: 640px) {
+      .cert-grid { grid-template-columns: minmax(0, 1fr); }
+      .badge-strip { flex-wrap: wrap; }
+      .lb-close { top: 8px; right: 8px; }
+    }
+
+    .certs .about-lead { text-align: left; }
+    .cert .pf-figure { font-size: clamp(18px, 1.55vw, 22px); text-wrap: balance; }
+    .badge-text { flex: 1 1 200px; }
+    @media (max-width: 640px) { .badge-strip .path-date { margin-left: 94px; } }
+
+    /* Certificates: same grid backdrop as the first section and Projects */
+    .certs {
+      background-color: var(--surface);
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 48px 48px;
+      background-position: -1px -1px;
+      border-top: 1px solid var(--line);
+    }
+
+    /* ═══ Message / contact ═══ */
+    .contact { background: var(--surface); border-top: 1px solid var(--line); padding: 40px clamp(24px, 6vw, 112px) clamp(64px, 7vw, 96px); }
+    .contact .sec-head { border-bottom: 0; padding-bottom: 0; }
+    .contact-grid {
+      display: grid; grid-template-columns: minmax(280px, 400px) minmax(0, 1fr);
+      gap: clamp(24px, 4vw, 48px); margin-top: 28px; align-items: start;
+    }
+    .contact-card {
+      padding: 24px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, #424249 0%, var(--ink-2) 100%);
+      color: #f4f4f5;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 2px 4px rgba(16,16,24,.07), 0 20px 36px -12px rgba(16,16,24,.22), 0 56px 100px -32px rgba(16,16,24,.3);
+    }
+    .cc-label { margin: 0 0 6px; font-size: 13px; font-weight: 600; color: #cfcfd5; }
+    .cc-email {
+      display: block; font-family: var(--font-display); font-weight: 700;
+      font-size: clamp(18px, 1.7vw, 22px); line-height: 1.3; color: #fff;
+      word-break: break-all; text-decoration: underline; text-decoration-color: rgba(255,255,255,.3);
+      text-underline-offset: 5px;
+    }
+    .cc-email:hover { text-decoration-color: #fff; }
+    .cc-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .contact-card .btn-primary { background: #fff; color: var(--ink); }
+    .contact-card .btn-ghost { background: transparent; color: #fff; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.5); cursor: pointer; font: inherit; font-weight: 600; font-size: 14.5px; border: 0; }
+    .contact-card .btn-ghost:hover { background: rgba(255,255,255,.1); color: #fff; }
+    .cc-copy.is-done { box-shadow: inset 0 0 0 1.5px #34d27a; }
+    .cc-facts { display: grid; gap: 12px; margin: 24px 0 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.12); }
+    .cc-facts div { display: flex; justify-content: space-between; gap: 12px; }
+    .cc-facts dt { font-size: 13px; color: #b4b4bc; font-weight: 600; }
+    .cc-facts dd { margin: 0; font-size: 14px; font-weight: 600; color: #fff; text-align: right; }
+    .cc-facts .live { display: inline-flex; align-items: center; gap: 8px; }
+    .cc-facts .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #34d27a; }
+
+    .contact-form {
+      display: grid; gap: 18px;
+      padding: 24px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, #fbfbfc 0%, #eef0f3 100%);
+      border: 1px solid #e3e4e8;
+      box-shadow: 0 1px 2px rgba(16,16,24,.04), 0 16px 32px -20px rgba(16,16,24,.22);
+    }
+    .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .cf-field { display: grid; gap: 6px; }
+    .cf-field > span, .cf-needs legend { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+    .cf-field input, .cf-field textarea {
+      width: 100%; padding: 12px 14px;
+      border: 1px solid #d6d7dc; border-radius: 12px; background: #fff;
+      font: 500 15px/1.5 var(--font-body); color: var(--ink);
+      transition: border-color .2s var(--ease-out), box-shadow .2s var(--ease-out);
+    }
+    .cf-field textarea { resize: vertical; min-height: 130px; }
+    .cf-field input::placeholder, .cf-field textarea::placeholder { color: var(--ink-3); }
+    .cf-field input:focus, .cf-field textarea:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 4px rgba(14,14,16,.08); }
+    .cf-field.has-error input, .cf-field.has-error textarea { border-color: #c4352b; }
+    .cf-error { font-style: normal; font-size: 13px; font-weight: 600; color: #b42318; min-height: 0; }
+    .cf-error:empty { display: none; }
+    .cf-needs { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+    .cf-needs legend { margin-bottom: 8px; padding: 0; }
+    .cf-needs label { position: relative; cursor: pointer; }
+    .cf-needs input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .cf-needs span {
+      display: inline-block; padding: 8px 14px; border-radius: 999px;
+      border: 1px solid #d6d7dc; background: #fff;
+      font-size: 14px; font-weight: 600; color: var(--ink-2);
+      transition: background .2s var(--ease-out), color .2s var(--ease-out), border-color .2s var(--ease-out);
+    }
+    .cf-needs label:hover span { border-color: #b9bac1; }
+    .cf-needs input:checked + span { background: var(--ink); border-color: var(--ink); color: #fff; }
+    .cf-needs input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 2px; }
+    .cf-submit { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
+    .cf-submit .btn { border: 0; cursor: pointer; font: inherit; font-weight: 600; font-size: 14.5px; }
+    .cf-note { margin: 0; font-size: 13px; color: var(--ink-3); }
+
+    .site-foot {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+      padding: 22px clamp(24px, 6vw, 112px);
+      border-top: 1px solid var(--line); background: var(--surface);
+      font-size: 13.5px; color: var(--ink-3);
+    }
+    .site-foot p { margin: 0; }
+    .site-foot a { font-weight: 600; color: var(--ink-2); }
+    .site-foot a:hover { color: var(--ink); }
+
+    @media (max-width: 900px) {
+      .contact { padding: 40px 16px 64px; }
+      .contact-grid { grid-template-columns: minmax(0, 1fr); }
+      .site-foot { padding: 20px 16px; }
+    }
+    @media (max-width: 640px) {
+      .cf-row { grid-template-columns: minmax(0, 1fr); }
+      .contact-card, .contact-form { padding: 18px; border-radius: 20px; }
+    }
+
+    /* Contact cards: equal height, lifted off the background */
+    .contact { position: relative; }
+    .contact-grid { align-items: stretch; }
+    .contact-card { display: flex; flex-direction: column; }
+    .contact-card .cc-facts { margin-top: auto; }
+    .contact-card .cc-actions { margin-bottom: 28px; }
+    .contact-card, .contact-form {
+      transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out);
+    }
+    .contact-card {
+      box-shadow:
+        0 2px 4px rgba(16,16,24,.08),
+        0 12px 24px -8px rgba(16,16,24,.18),
+        0 36px 64px -20px rgba(16,16,24,.32),
+        0 80px 120px -48px rgba(16,16,24,.36);
+    }
+    .contact-form {
+      box-shadow:
+        0 1px 2px rgba(16,16,24,.05),
+        0 10px 20px -8px rgba(16,16,24,.12),
+        0 30px 56px -20px rgba(16,16,24,.22),
+        0 70px 110px -48px rgba(16,16,24,.26);
+    }
+    .contact-card:hover, .contact-form:focus-within { transform: translateY(-4px); }
+    @media (max-width: 900px) { .contact-card .cc-facts { margin-top: 0; } }
+
+    /* Snap shares Clip's look and leg poses; bubble in pink-tinted ink */
+    .buddy-snap { z-index: 6; }
+    .snap-bubble { background: #3b2a33; }
+    .snap-bubble::after { background: #3b2a33; }
+
+    /* Dark contact card: intro text up top, actions pinned just above the divider */
+    .cc-intro { margin: 16px 0 0; font-size: 15px; line-height: 1.65; color: #d6d6dc; max-width: 38ch; }
+    .contact-card .cc-actions { margin-top: auto; margin-bottom: 0; padding-top: 24px; }
+    .contact-card .cc-facts { margin-top: 20px; }
+    @media (max-width: 900px) { .contact-card .cc-actions { margin-top: 0; } }
+
+    /* ═══ Polish: browser surfaces, hit areas, small states ═══ */
+    :root { color-scheme: light; accent-color: var(--ink); }
+    html { scrollbar-color: #c4c5cb transparent; scrollbar-width: thin; }
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-thumb { background: #c4c5cb; border-radius: 999px; border: 2px solid var(--surface); }
+    ::-webkit-scrollbar-thumb:hover { background: #a9aab2; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    input, textarea { caret-color: var(--ink); }
+    /* Bigger hit areas, same look */
+    .to-top, .cc-email { padding-block: 8px; margin-block: -8px; }
+    .to-top { display: inline-flex; align-items: center; gap: 6px; }
+    .to-top svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .cf-note.is-sent { color: var(--ink-2); font-weight: 600; }
   </style>
 </head>
 <body>
-  <script>document.body.dataset.nav = matchMedia('(max-width: 900px)').matches ? 'closed' : 'open';</script>
+  <script>document.body.dataset.nav = matchMedia('(min-width: 1280px)').matches ? 'open' : 'closed';</script>
   <button class="nav-toggle" type="button" aria-label="Collapse menu" aria-expanded="true" aria-controls="sidebar">
     <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
   </button>
@@ -1534,36 +1805,6 @@
 
   <main class="main">
    <div class="first" id="home">
-    <button class="buddy" type="button" aria-label="Clip, the little camera. Click to say hi." aria-describedby="buddy-bubble">
-      <span class="buddy-hop">
-        <svg viewBox="0 0 16 15" shape-rendering="crispEdges" aria-hidden="true">
-          <rect x="5" y="1" width="4" height="2" fill="#3b3b41"/>
-          <rect x="2" y="3" width="12" height="8" fill="#3b3b41"/>
-          <rect x="2" y="3" width="12" height="1" fill="#55555d"/>
-          <rect x="14" y="5" width="2" height="4" fill="#6b6b73"/>
-          <rect x="3" y="4" width="1" height="1" fill="#ff5f57"/>
-          <g class="buddy-eyes">
-            <rect x="7" y="5" width="2" height="3" fill="#fff"/>
-            <rect x="10" y="5" width="2" height="3" fill="#fff"/>
-            <rect x="8" y="6" width="1" height="2" fill="#0e0e10"/>
-            <rect x="11" y="6" width="1" height="2" fill="#0e0e10"/>
-          </g>
-          <g class="legs legs-a" fill="#3b3b41">
-            <rect x="4" y="11" width="1" height="2"/><rect x="3" y="13" width="2" height="1"/>
-            <rect x="11" y="11" width="1" height="1"/><rect x="11" y="12" width="2" height="1"/>
-          </g>
-          <g class="legs legs-b" fill="#3b3b41">
-            <rect x="4" y="11" width="1" height="1"/><rect x="3" y="12" width="2" height="1"/>
-            <rect x="11" y="11" width="1" height="2"/><rect x="11" y="13" width="2" height="1"/>
-          </g>
-          <g class="legs legs-j" fill="#3b3b41">
-            <rect x="5" y="11" width="1" height="1"/><rect x="5" y="12" width="2" height="1"/>
-            <rect x="10" y="11" width="1" height="1"/><rect x="9" y="12" width="2" height="1"/>
-          </g>
-        </svg>
-      </span>
-    </button>
-    <p class="buddy-bubble" id="buddy-bubble" role="status" aria-live="polite"></p>
     <!-- Search and theme switch: visual only, not wired up yet -->
     <div class="first-bar">
       <form class="search" role="search" onsubmit="return false">
@@ -1612,6 +1853,18 @@
           </div>
         </a>
 
+        <a class="work work-3d is-light" href="#projects" data-depth="8">
+          <div class="work-body reveal" style="--i:7">
+            <div class="media ratio-social" data-hint="Add work/blender.jpg">
+              <img src="work/blender.jpg" alt="Blender scene: donut, mug and flower vase" />
+            </div>
+            <div class="work-cap">
+              <span class="work-kind">3D</span>
+              <span class="work-meta">Learning Blender</span>
+            </div>
+          </div>
+        </a>
+
         <a class="work work-social" href="#projects" data-depth="10">
           <div class="work-body reveal" style="--i:6">
             <div class="media ratio-social" data-hint="Add work/social.jpg">
@@ -1651,6 +1904,36 @@
         <div class="marquee-track" id="marquee-track"></div>
       </div>
     </section>
+    <button class="buddy" type="button" aria-label="Clip, the little camera. Click to say hi." aria-describedby="buddy-bubble">
+      <span class="buddy-hop">
+        <svg viewBox="0 0 16 15" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="5" y="1" width="4" height="2" fill="#3b3b41"/>
+          <rect x="2" y="3" width="12" height="8" fill="#3b3b41"/>
+          <rect x="2" y="3" width="12" height="1" fill="#55555d"/>
+          <rect x="14" y="5" width="2" height="4" fill="#6b6b73"/>
+          <rect x="3" y="4" width="1" height="1" fill="#ff5f57"/>
+          <g class="buddy-eyes">
+            <rect x="7" y="5" width="2" height="3" fill="#fff"/>
+            <rect x="10" y="5" width="2" height="3" fill="#fff"/>
+            <rect x="8" y="6" width="1" height="2" fill="#0e0e10"/>
+            <rect x="11" y="6" width="1" height="2" fill="#0e0e10"/>
+          </g>
+          <g class="legs legs-a" fill="#3b3b41">
+            <rect x="4" y="11" width="1" height="2"/><rect x="3" y="13" width="2" height="1"/>
+            <rect x="11" y="11" width="1" height="1"/><rect x="11" y="12" width="2" height="1"/>
+          </g>
+          <g class="legs legs-b" fill="#3b3b41">
+            <rect x="4" y="11" width="1" height="1"/><rect x="3" y="12" width="2" height="1"/>
+            <rect x="11" y="11" width="1" height="2"/><rect x="11" y="13" width="2" height="1"/>
+          </g>
+          <g class="legs legs-j" fill="#3b3b41">
+            <rect x="5" y="11" width="1" height="1"/><rect x="5" y="12" width="2" height="1"/>
+            <rect x="10" y="11" width="1" height="1"/><rect x="9" y="12" width="2" height="1"/>
+          </g>
+        </svg>
+      </span>
+    </button>
+    <p class="buddy-bubble" id="buddy-bubble" role="status" aria-live="polite"></p>
    </div>
 
     <section class="about" id="about" aria-labelledby="about-title">
@@ -1702,37 +1985,6 @@
               scripts, plan content and prototype code faster. Then I check and finish everything myself.
             </p>
           </div>
-
-          <ul class="svc-list" aria-label="What I do">
-            <li class="svc-row">
-              <div>
-                <h3>Websites</h3>
-                <p>Design and development, from the first layout in Figma to a finished site with a working backend.</p>
-              </div>
-              <div class="uses"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>PHP</span><span>Laravel</span><span>React</span><span>Bootstrap</span><span>SQL</span><span>MariaDB</span><span>Figma</span></div>
-            </li>
-            <li class="svc-row">
-              <div>
-                <h3>Video editing</h3>
-                <p>Short-form clips and educational videos, with clean cuts, captions and pacing that holds attention.</p>
-              </div>
-              <div class="uses"><span>CapCut</span><span>Photoshop</span><span>Blender</span><span>Canva</span></div>
-            </li>
-            <li class="svc-row">
-              <div>
-                <h3>Social media growth</h3>
-                <p>Content planning, posting and account growth, taking a page from zero to an audience.</p>
-              </div>
-              <div class="uses"><span>Canva</span><span>CapCut</span><span>Facebook</span><span>TikTok</span></div>
-            </li>
-            <li class="svc-row">
-              <div>
-                <h3>AI-assisted work</h3>
-                <p>Research, scripts, content plans and code prototypes, sped up with AI and finished by hand.</p>
-              </div>
-              <div class="uses"><span>ChatGPT</span><span>Claude</span></div>
-            </li>
-          </ul>
           </div>
         </div>
       </div>
@@ -1866,7 +2118,7 @@
           </header>
           <div class="pg-grid pg-two">
             <figure class="pf game">
-              <div class="media pf-wide" data-hint="Add work/echoes.png">
+              <div class="media pf-wide" data-hint="Screenshot coming soon">
                 <img src="work/echoes.png" alt="Echoes of Deception gameplay" loading="lazy" />
               </div>
               <figcaption>
@@ -1876,8 +2128,8 @@
               </figcaption>
             </figure>
             <figure class="pf learn is-light">
-              <div class="media pf-wide" data-hint="Add work/blender.png">
-                <img src="work/blender.png" alt="A Blender render" loading="lazy" />
+              <div class="media pf-wide" data-hint="Add work/blender.jpg">
+                <img src="work/blender.jpg" alt="My Blender scene: a donut on a plate, a mug and a flower vase" loading="lazy" />
               </div>
               <figcaption>
                 <span class="pf-tags"><span>3D</span><span>Blender</span><span>Learning</span></span>
@@ -1968,7 +2220,7 @@
           <li class="step">
             <div class="step-text">
               <span class="step-num" aria-hidden="true">01</span>
-              <h3>Connect before<br />anything else.</h3>
+              <h3>Connect before <br />anything else.</h3>
               <p>We talk through what you need, who it's for and when you need it. No guessing.</p>
             </div>
             <div class="step-demo" aria-hidden="true">
@@ -1984,7 +2236,7 @@
           <li class="step">
             <div class="step-text">
               <span class="step-num" aria-hidden="true">02</span>
-              <h3>Plan it<br />on paper first.</h3>
+              <h3>Plan it <br />on paper first.</h3>
               <p>I map out the pages, the script or the content before I build anything, so we agree on the shape early.</p>
             </div>
             <div class="step-demo" aria-hidden="true">
@@ -2002,7 +2254,7 @@
           <li class="step">
             <div class="step-text">
               <span class="step-num" aria-hidden="true">03</span>
-              <h3>Build it,<br />and keep you posted.</h3>
+              <h3>Build it, <br />and keep you posted.</h3>
               <p>I design, code, edit or post, and send updates along the way instead of disappearing until the deadline.</p>
             </div>
             <div class="step-demo" aria-hidden="true">
@@ -2021,7 +2273,7 @@
           <li class="step">
             <div class="step-text">
               <span class="step-num" aria-hidden="true">04</span>
-              <h3>Revise together<br />until it's right.</h3>
+              <h3>Revise together <br />until it's right.</h3>
               <p>You review it, I make the changes, and we repeat until you're happy to put your name on it.</p>
             </div>
             <div class="step-demo" aria-hidden="true">
@@ -2040,6 +2292,174 @@
         </ol>
       </div>
     </section>
+
+    <section class="certs" id="certificates" aria-labelledby="certs-title">
+      <div class="about-inner">
+        <header class="sec-head">
+          <h2 class="section-title" id="certs-title">Certificates &amp; <em>badges</em>.</h2>
+          <p class="about-lead">Courses I've finished through the Cisco Networking Academy, with more on the way.</p>
+        </header>
+
+        <div class="badge-strip">
+          <img class="badge-img" src="work/certs/badge-javascript-essentials-1.png" alt="Verified Cisco Networking Academy badge: JavaScript Essentials 1" width="92" height="92" />
+          <div class="badge-text">
+            <p class="badge-name">JavaScript Essentials 1</p>
+            <p class="badge-meta">Verified badge · Cisco Networking Academy · 40 hours</p>
+          </div>
+          <span class="path-date is-now">New · Nov 2026</span>
+        </div>
+
+        <div class="cert-grid">
+          <button class="pf cert" type="button" data-full="work/certs/cert-javascript-essentials-1.jpg">
+            <span class="media cert-media"><img src="work/certs/cert-javascript-essentials-1.jpg" alt="Certificate: JavaScript Essentials 1, awarded to Joren Sanchez" loading="lazy" /></span>
+            <span class="cert-cap">
+              <span class="pf-tags"><span>Course</span><span>JavaScript</span><span>40 hrs</span></span>
+              <span class="pf-figure">JavaScript Essentials 1</span>
+              <span class="pf-text">Cisco Networking Academy &amp; JS Institute · DICT-ITU DTC Initiative</span>
+              <span class="cert-date">Completed 12 Nov 2026</span>
+            </span>
+          </button>
+          <button class="pf cert is-light" type="button" data-full="work/certs/cert-computer-hardware-basics.jpg">
+            <span class="media cert-media"><img src="work/certs/cert-computer-hardware-basics.jpg" alt="Certificate: Computer Hardware Basics" loading="lazy" /></span>
+            <span class="cert-cap">
+              <span class="pf-tags"><span>Course</span><span>Hardware</span></span>
+              <span class="pf-figure">Computer Hardware Basics</span>
+              <span class="pf-text">Cisco Networking Academy · DICT-ITU DTC Initiative</span>
+              <span class="cert-date">Completed 01 Sep 2026</span>
+            </span>
+          </button>
+          <button class="pf cert is-light" type="button" data-full="work/certs/cert-networking-basics.jpg">
+            <span class="media cert-media"><img src="work/certs/cert-networking-basics.jpg" alt="Certificate: Networking Basics" loading="lazy" /></span>
+            <span class="cert-cap">
+              <span class="pf-tags"><span>Course</span><span>Networking</span></span>
+              <span class="pf-figure">Networking Basics</span>
+              <span class="pf-text">Cisco Networking Academy · DICT-ITU DTC Initiative</span>
+              <span class="cert-date">Completed 02 Dec 2025</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+
+      <div class="about-inner">
+        <header class="sec-head">
+          <h2 class="section-title" id="contact-title">Let's work <em>together</em>.</h2>
+          <p class="about-lead">A website, a video, a page to grow, or all three. Tell me what you need.</p>
+        </header>
+
+        <div class="contact-grid">
+          <aside class="contact-card">
+            <p class="cc-label">Email me directly</p>
+            <a class="cc-email" href="mailto:andeejoren179@gmail.com">andeejoren179@gmail.com</a>
+            <p class="cc-intro">
+              Have a project in mind? Send a short note about what you need and when you need it.
+              Whether it's a website, a video edit or a page to grow, I'm happy to talk it through,
+              in English or Filipino.
+            </p>
+            <div class="cc-actions">
+              <a class="btn btn-primary cc-btn" href="mailto:andeejoren179@gmail.com">
+                Send an email
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+              </a>
+              <button class="btn btn-ghost cc-btn cc-copy" type="button" data-email="andeejoren179@gmail.com">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+                <span>Copy email</span>
+              </button>
+            </div>
+            <dl class="cc-facts">
+              <div><dt>Based in</dt><dd>Bulacan, Philippines</dd></div>
+              <div><dt>Languages</dt><dd>English · Filipino</dd></div>
+              <div><dt>Status</dt><dd class="live">Open to work</dd></div>
+            </dl>
+          </aside>
+
+          <form class="contact-form" novalidate>
+            <div class="cf-row">
+              <label class="cf-field">
+                <span>Your name</span>
+                <input name="name" type="text" autocomplete="name" required />
+                <em class="cf-error" aria-live="polite"></em>
+              </label>
+              <label class="cf-field">
+                <span>Your email</span>
+                <input name="email" type="email" autocomplete="email" required />
+                <em class="cf-error" aria-live="polite"></em>
+              </label>
+            </div>
+            <fieldset class="cf-needs">
+              <legend>What do you need?</legend>
+              <label><input type="checkbox" name="need" value="Website" /><span>Website</span></label>
+              <label><input type="checkbox" name="need" value="Video editing" /><span>Video editing</span></label>
+              <label><input type="checkbox" name="need" value="Social media growth" /><span>Social media growth</span></label>
+              <label><input type="checkbox" name="need" value="Something else" /><span>Something else</span></label>
+            </fieldset>
+            <label class="cf-field">
+              <span>Message</span>
+              <textarea name="message" rows="5" placeholder="What are you working on, and when do you need it?" required></textarea>
+              <em class="cf-error" aria-live="polite"></em>
+            </label>
+            <div class="cf-submit">
+              <button class="btn btn-primary" type="submit">
+                Send message
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+              </button>
+              <p class="cf-note" aria-live="polite">Opens your email app with your message ready to send.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+      <button class="buddy buddy-snap" type="button" aria-label="Snap, the little camera. Click for a tip." aria-describedby="snap-bubble">
+        <span class="buddy-hop">
+          <svg viewBox="0 0 16 15" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="5" y="0" width="2" height="2" fill="#ff7aa8"/>
+            <rect x="9" y="0" width="2" height="2" fill="#ff7aa8"/>
+            <rect x="7" y="1" width="2" height="1" fill="#e2508a"/>
+            <rect x="5" y="1" width="6" height="1" fill="#ff7aa8" opacity=".0"/>
+            <rect x="2" y="3" width="12" height="8" fill="#55555d"/>
+            <rect x="2" y="3" width="12" height="1" fill="#6b6b73"/>
+            <rect x="14" y="5" width="2" height="4" fill="#ff9cc0"/>
+            <rect x="3" y="4" width="1" height="1" fill="#ff7aa8"/>
+            <g class="buddy-eyes">
+              <rect x="7" y="4" width="1" height="1" fill="#0e0e10"/>
+              <rect x="11" y="4" width="1" height="1" fill="#0e0e10"/>
+              <rect x="7" y="5" width="2" height="3" fill="#fff"/>
+              <rect x="10" y="5" width="2" height="3" fill="#fff"/>
+              <rect x="8" y="6" width="1" height="2" fill="#0e0e10"/>
+              <rect x="11" y="6" width="1" height="2" fill="#0e0e10"/>
+            </g>
+            <rect x="6" y="9" width="1" height="1" fill="#ff9cc0"/>
+            <rect x="12" y="9" width="1" height="1" fill="#ff9cc0"/>
+            <g class="legs legs-a" fill="#55555d">
+              <rect x="4" y="11" width="1" height="2"/><rect x="3" y="13" width="2" height="1"/>
+              <rect x="11" y="11" width="1" height="1"/><rect x="11" y="12" width="2" height="1"/>
+            </g>
+            <g class="legs legs-b" fill="#55555d">
+              <rect x="4" y="11" width="1" height="1"/><rect x="3" y="12" width="2" height="1"/>
+              <rect x="11" y="11" width="1" height="2"/><rect x="11" y="13" width="2" height="1"/>
+            </g>
+            <g class="legs legs-j" fill="#55555d">
+              <rect x="5" y="11" width="1" height="1"/><rect x="5" y="12" width="2" height="1"/>
+              <rect x="10" y="11" width="1" height="1"/><rect x="9" y="12" width="2" height="1"/>
+            </g>
+          </svg>
+        </span>
+      </button>
+      <p class="buddy-bubble snap-bubble" id="snap-bubble" role="status" aria-live="polite"></p>
+    </section>
+
+    <footer class="site-foot">
+      <p>© 2026 Joren Sanchez · Bulacan, Philippines</p>
+      <a class="to-top" href="#home">Back to top <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-6 6 6-6 6 6"/></svg></a>
+    </footer>
+
+    <dialog class="lightbox" id="lightbox" aria-label="Certificate preview">
+      <button class="lb-close" type="button" aria-label="Close preview">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <img src="work/certs/cert-javascript-essentials-1.jpg" alt="Certificate preview" />
+    </dialog>
   </main>
 
   <script>
@@ -2177,8 +2597,10 @@
       btn.setAttribute('aria-label', mobile.matches ? (open ? 'Close menu' : 'Open menu') : (open ? 'Collapse menu' : 'Expand menu'));
       sidebar.inert = mobile.matches && !open;
     };
-    setOpen(!mobile.matches);
-    mobile.addEventListener('change', e => setOpen(!e.matches));
+    const roomy = window.matchMedia('(min-width: 1280px)');
+    setOpen(roomy.matches);
+    mobile.addEventListener('change', () => setOpen(roomy.matches));
+    roomy.addEventListener('change', e => setOpen(e.matches));
     btn.addEventListener('click', () => setOpen(!isOpen()));
     scrim.addEventListener('click', () => setOpen(false));
     document.querySelectorAll('.nav a').forEach(a => a.addEventListener('click', () => { if (mobile.matches) setOpen(false); }));
@@ -2225,8 +2647,10 @@
       if (!area || !buddy) return;
 
       const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const SIZE = 46;            // rendered box
-      const FOOT = 43;            // feet sit this far below the box top
+      // Size comes from CSS (smaller on phones); feet sit near the bottom of the box.
+      let SIZE = 46, FOOT = 43;
+      const measure = () => { SIZE = buddy.offsetWidth || 46; FOOT = Math.round(SIZE * 43 / 46); };
+      measure();
       const WALK = 72;            // px per second
       const lines = [
         "Hi! I'm Clip, Joren's little camera.",
@@ -2236,6 +2660,7 @@
         "Press View My Work. I'll keep walking."
       ];
       let x = 0, y = 0, talking = false, line = 0, bubbleTimer = null;
+      let airborne = false, pendingSay = false;   // no talking mid-jump
 
       const wait = (ms) => new Promise(r => setTimeout(r, ms));
       // Next animation frame, with a timer fallback for environments that throttle rAF.
@@ -2283,7 +2708,8 @@
       };
       const usable = () => Object.keys(ground).filter(k => {
         const g = ground[k]();
-        return g && g.x1 - g.x0 > 6;
+        return g && g.x1 - g.x0 > 6 && g.x0 >= 0 && g.x1 + SIZE <= area.clientWidth
+          && g.y - FOOT > 0 && g.y < area.clientHeight;
       });
       let here = 'line1';
 
@@ -2310,8 +2736,10 @@
 
       // Jump in an arc to (tx, ground y), with a crouch before and a squash after.
       const jump = async (getGround, tx, lift = 36) => {
+        while (talking) await wait(60);                 // finish the sentence before jumping
         const g = getGround();
         if (!g) return;
+        airborne = true;
         const x0 = x, y0 = y, y1 = g.y - FOOT;
         const dist = Math.hypot(tx - x0, y1 - y0);
         const dur = Math.min(1000, 380 + dist * 0.9);
@@ -2330,6 +2758,8 @@
           if (t >= 1) break;
         }
         pose('a');
+        airborne = false;
+        if (pendingSay) { pendingSay = false; say(); }  // a click during the jump speaks on landing
         buddy.classList.add('is-landing');
         await wait(130);
         buddy.classList.remove('is-landing');
@@ -2385,7 +2815,7 @@
 
       const loop = async () => {
         for (;;) {
-          if (!ground[here]()) {                            // surface vanished (resize): go home
+          if (!ground[here]() || !usable().includes(here)) { // surface gone or off screen: go home
             const h = ground.line1(); if (!h) { await wait(800); continue; }
             put(h.x0, h.y - FOOT); here = 'line1';
           }
@@ -2397,6 +2827,7 @@
       // Talking: a quick line, gone after about a second.
       const say = () => {
         if (talking) return;
+        if (airborne) { pendingSay = true; return; }
         talking = true;
         bubble.textContent = lines[line++ % lines.length];
         const bw = bubble.offsetWidth || 220;
@@ -2422,8 +2853,10 @@
       setTimeout(begin, 1300);
       addEventListener('resize', () => {
         // Snap back onto the headline if a resize leaves Clip floating.
+        measure();
         const h = ground.line1();
-        if (h && still) put(h.x0, h.y - FOOT);
+        if (!h) return;
+        if (still || !usable().includes(here)) { put(h.x0, h.y - FOOT); here = 'line1'; }
       });
     })();
   </script>
@@ -2452,7 +2885,8 @@
       const groups = [
         '.about .id-card', '.about .svc-row',
         '.projects .pg-desc', '.projects .pf', '.projects .testimonial',
-        '.experience .path-row', '.process .step-text', '.process .step-demo'
+        '.experience .path-row', '.process .step-text', '.process .step-demo',
+        '.certs .badge-strip', '.certs .cert', '.contact .contact-card', '.contact .contact-form'
       ];
       const els = [];
       groups.forEach(sel => {
@@ -2478,6 +2912,252 @@
       addEventListener('scroll', check, { passive: true });
       addEventListener('resize', check);
       check();
+    })();
+  </script>
+  <script>
+    // Certificate lightbox: click a certificate to see it full size.
+    (() => {
+      const box = document.getElementById('lightbox');
+      if (!box || typeof box.showModal !== 'function') return;
+      const img = box.querySelector('img');
+      document.querySelectorAll('.cert').forEach(card => card.addEventListener('click', () => {
+        img.src = card.dataset.full;
+        img.alt = card.querySelector('img').alt;
+        box.showModal();
+      }));
+      box.querySelector('.lb-close').addEventListener('click', () => box.close());
+      box.addEventListener('click', e => { if (e.target === box) box.close(); });
+    })();
+  </script>
+  <script>
+    // Contact: copy-email button, and a form that opens the visitor's email app.
+    (() => {
+      const TO = 'andeejoren179@gmail.com';
+      const copy = document.querySelector('.cc-copy');
+      if (copy) copy.addEventListener('click', async () => {
+        const label = copy.querySelector('span');
+        try {
+          await navigator.clipboard.writeText(copy.dataset.email);
+          label.textContent = 'Copied!';
+        } catch (e) {
+          label.textContent = 'Press Ctrl+C';
+          const r = document.createRange(); r.selectNodeContents(document.querySelector('.cc-email'));
+          const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        }
+        copy.classList.add('is-done');
+        setTimeout(() => { label.textContent = 'Copy email'; copy.classList.remove('is-done'); }, 2000);
+      });
+
+      const form = document.querySelector('.contact-form');
+      if (!form) return;
+      const setError = (input, msg) => {
+        const field = input.closest('.cf-field');
+        field.classList.toggle('has-error', !!msg);
+        field.querySelector('.cf-error').textContent = msg || '';
+        input.setAttribute('aria-invalid', msg ? 'true' : 'false');
+      };
+      const check = () => {
+        const f = form.elements;
+        const errs = [
+          [f.name, f.name.value.trim() ? '' : 'Please add your name.'],
+          [f.email, !f.email.value.trim() ? 'Please add your email so I can reply.'
+                   : f.email.validity.valid ? '' : 'That email looks incomplete. Check it and try again.'],
+          [f.message, f.message.value.trim() ? '' : 'Tell me a little about what you need.']
+        ];
+        errs.forEach(([el, msg]) => setError(el, msg));
+        const first = errs.find(([, msg]) => msg);
+        if (first) first[0].focus();
+        return !first;
+      };
+      form.addEventListener('input', e => { if (e.target.closest('.has-error')) setError(e.target, ''); });
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        if (!check()) return;
+        const f = form.elements;
+        const needs = [...form.querySelectorAll('input[name="need"]:checked')].map(i => i.value);
+        const subject = 'Portfolio inquiry' + (needs.length ? ': ' + needs.join(', ') : '');
+        const body = f.message.value.trim() + '\n\n' + f.name.value.trim() + '\n' + f.email.value.trim();
+        location.href = 'mailto:' + TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        const note = form.querySelector('.cf-note');
+        if (note) {
+          if (!note.dataset.orig) note.dataset.orig = note.textContent;
+          note.textContent = 'Opening your email app… If nothing happens, email me at ' + TO + '.';
+          note.classList.add('is-sent');
+          clearTimeout(note._t);
+          note._t = setTimeout(() => { note.textContent = note.dataset.orig; note.classList.remove('is-sent'); }, 8000);
+        }
+      });
+    })();
+  </script>
+  <script>
+    // Snap: Clip's friend. Walks only on the contact section's text and cards,
+    // talks on her own every so often, and gives a tip when clicked.
+    (() => {
+      const area = document.querySelector('.contact');
+      const buddy = document.querySelector('.buddy-snap');
+      const bubble = document.getElementById('snap-bubble');
+      if (!area || !buddy || !bubble) return;
+      const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let SIZE = 46, FOOT = 43;
+      const measure = () => { SIZE = buddy.offsetWidth || 46; FOOT = Math.round(SIZE * 43 / 46); };
+      measure();
+
+      const idleLines = [
+        "Psst! Joren reads every message.",
+        "Pick what you need, then hit Send.",
+        "Don't be shy. Say hi!",
+        "Prefer email? Copy it from the dark card.",
+        "Click me for a tip!"
+      ];
+      const tapLines = [
+        "Hi, I'm Snap! Clip's best friend.",
+        "Tip: say when you need it. It helps Joren plan.",
+        "Tip: a link to your page or site helps too.",
+        "Websites, videos, socials. He does all three!",
+        "Okay, go send that message!"
+      ];
+      let x = 0, y = 0, talking = false, idleI = 0, tapI = 0, hideTimer = null, here = 'title';
+      let airborne = false, pending = null;       // no talking mid-jump
+
+      const wait = (ms) => new Promise(r => setTimeout(r, ms));
+      const frame = () => new Promise(r => {
+        let done = false; const go = () => { if (!done) { done = true; r(); } };
+        requestAnimationFrame(go); setTimeout(go, 34);
+      });
+      const pose = (p) => { buddy.dataset.pose = p; };
+      const face = (d) => buddy.style.setProperty('--face', d < 0 ? -1 : 1);
+      const put = (nx, ny) => { x = nx; y = ny; buddy.style.transform = `translate3d(${x}px, ${y}px, 0)`; };
+      const rel = (r) => { const a = area.getBoundingClientRect(); return { left: r.left - a.left, right: r.right - a.left, top: r.top - a.top }; };
+      const textGround = (el) => {
+        if (!el) return null;
+        const range = document.createRange(); range.selectNodeContents(el);
+        const r = [...range.getClientRects()].find(q => q.width > 8);
+        if (!r) return null;
+        const fs = parseFloat(getComputedStyle(el).fontSize), q = rel(r);
+        return { x0: q.left + 2, x1: q.right - SIZE + 4, y: q.top + (r.height - fs) / 2 + fs * 0.1 };
+      };
+      const boxGround = (el) => {
+        if (!el) return null;
+        const q = rel(el.getBoundingClientRect());
+        return { x0: q.left + 16, x1: q.right - SIZE - 16, y: q.top + 1 };
+      };
+      const ground = {
+        title:  () => textGround(document.getElementById('contact-title')),
+        lead:   () => textGround(area.querySelector('.about-lead')),
+        card:   () => boxGround(area.querySelector('.contact-card')),
+        form:   () => boxGround(area.querySelector('.contact-form')),
+        note:   () => textGround(area.querySelector('.cf-note')),
+        footer: () => textGround(document.querySelector('.site-foot p'))
+      };
+      const usable = () => Object.keys(ground).filter(k => {
+        const g = ground[k]();
+        return g && g.x1 - g.x0 > 6 && g.x0 >= 0 && g.x1 + SIZE <= area.clientWidth && g.y - FOOT > 0;
+      });
+
+      const walk = async (key, tx, speed = 70) => {
+        let step = 0, last = performance.now();
+        face(tx - x);
+        while (Math.abs(tx - x) > 1) {
+          await frame();
+          if (talking) { pose('a'); last = performance.now(); continue; }
+          const now = performance.now(), dt = Math.min(0.05, (now - last) / 1000); last = now;
+          const g = ground[key](); if (!g) return;
+          const dir = Math.sign(tx - x), nx = x + dir * speed * dt;
+          step += dt; pose(Math.floor(step / 0.14) % 2 ? 'b' : 'a');
+          put(dir > 0 ? Math.min(nx, tx) : Math.max(nx, tx), g.y - FOOT);
+        }
+        pose('a');
+      };
+      const jump = async (key, tx, lift = 36) => {
+        while (talking) await wait(60);                 // finish the sentence before jumping
+        const g = ground[key](); if (!g) return;
+        airborne = true;
+        const x0 = x, y0 = y, y1 = g.y - FOOT, dist = Math.hypot(tx - x0, y1 - y0);
+        const dur = Math.min(1100, 380 + dist * 0.9), peak = Math.min(y0, y1) - (lift + dist * 0.12);
+        const cy = 2 * peak - (y0 + y1) / 2;
+        if (Math.abs(tx - x0) > 2) face(tx - x0);
+        pose('a'); buddy.classList.add('is-landing'); await wait(110); buddy.classList.remove('is-landing');
+        pose('jump');
+        const t0 = performance.now();
+        for (;;) {
+          await frame();
+          const t = Math.min(1, (performance.now() - t0) / dur);
+          const gy = (ground[key]() || g).y - FOOT;
+          put(x0 + (tx - x0) * t, (1 - t) * (1 - t) * y0 + 2 * (1 - t) * t * cy + t * t * gy);
+          if (t >= 1) break;
+        }
+        pose('a');
+        airborne = false;
+        if (pending) { const [t1, m1] = pending; pending = null; say(t1, m1); }
+        buddy.classList.add('is-landing'); await wait(130); buddy.classList.remove('is-landing');
+      };
+      const idle = async (ms) => { pose('a'); const end = performance.now() + ms; while (performance.now() < end || talking) await wait(60); };
+      const rand = (a, b) => a + Math.random() * (b - a);
+      const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+      const say = (text, ms = 2400) => {
+        if (airborne) { pending = [text, ms]; return; }
+        talking = true;
+        bubble.textContent = text;
+        const bw = bubble.offsetWidth || 220, bh = bubble.offsetHeight || 40;
+        const bx = Math.min(Math.max(8, x + SIZE / 2 - bw / 2), area.clientWidth - bw - 8);
+        bubble.style.left = bx + 'px';
+        bubble.style.top = (y - bh - 12) + 'px';
+        bubble.style.setProperty('--tail', Math.max(14, Math.min(bw - 26, x + SIZE / 2 - bx - 6)) + 'px');
+        bubble.classList.add('is-open');
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(() => { bubble.classList.remove('is-open'); talking = false; }, ms);
+      };
+      buddy.addEventListener('click', () => say(tapLines[tapI++ % tapLines.length], 1800));
+
+      // Only move and chatter while the section is on screen.
+      const inView = () => { const r = area.getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; };
+
+      const moves = [
+        { w: 34, run: async () => { const g = ground[here](); if (g) await walk(here, rand(g.x0, g.x1), rand(55, 90)); } },
+        { w: 30, run: async () => {
+          const opts = usable().filter(k => k !== here); if (!opts.length) return;
+          const k = pick(opts), g = ground[k](); await jump(k, rand(g.x0, g.x1)); here = k;
+        } },
+        { w: 10, run: async () => { await jump(here, x, 22); } },
+        { w: 14, run: async () => { face(-1); await idle(rand(350, 650)); face(1); await idle(rand(300, 600)); } },
+        { w: 12, run: () => idle(rand(600, 1300)) }
+      ];
+      const total = moves.reduce((t, m) => t + m.w, 0);
+      const choose = () => { let r = Math.random() * total; for (const m of moves) if ((r -= m.w) < 0) return m; return moves[0]; };
+
+      const loop = async () => {
+        for (;;) {
+          if (!inView()) { await wait(500); continue; }
+          if (!ground[here]() || !usable().includes(here)) {
+            const g = ground.title(); if (!g) { await wait(500); continue; }
+            put(g.x0, g.y - FOOT); here = 'title';
+          }
+          await choose().run();
+          await idle(rand(150, 500));
+        }
+      };
+      // Chatter on her own, even if nobody clicks.
+      const chatter = async () => {
+        await wait(2500);
+        for (;;) {
+          await wait(rand(6500, 10000));
+          if (inView() && !talking) say(idleLines[idleI++ % idleLines.length]);
+        }
+      };
+
+      const begin = () => {
+        const g = ground.title(); if (!g) return;
+        put(g.x1, g.y - FOOT); pose('a');
+        if (!still) loop();
+        chatter();
+      };
+      setTimeout(begin, 1300);
+      addEventListener('resize', () => {
+        measure();
+        const g = ground.title();
+        if (g && (still || !usable().includes(here))) { put(g.x1, g.y - FOOT); here = 'title'; }
+      });
     })();
   </script>
 </body>
