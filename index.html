@@ -195,39 +195,6 @@
       background-position: -1px -1px;
     }
 
-    /* ── Top bar: search + theme switch (visual only for now) ── */
-    .first-bar {
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-      padding: 18px clamp(24px, 6vw, 112px) 0;
-    }
-    @media (min-width: 901px) { .first-bar { min-height: 76px; } }
-    .search {
-      position: relative;
-      display: flex; align-items: center; gap: 10px;
-      width: min(380px, 100%);
-      height: 42px;
-      padding: 0 8px 0 14px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(255,255,255,.75);
-      transition: border-color .25s var(--ease-out), box-shadow .25s var(--ease-out), background .25s var(--ease-out);
-    }
-    .search:hover { border-color: #d4d4d9; }
-    .search:focus-within { border-color: var(--ink); background: var(--paper); box-shadow: 0 0 0 4px rgba(14,14,16,.06); }
-    .search svg { width: 17px; height: 17px; flex: none; stroke: var(--ink-3); fill: none; stroke-width: 2; stroke-linecap: round; }
-    .search input {
-      flex: 1; min-width: 0;
-      border: 0; outline: 0; background: transparent;
-      font: 500 14px/1 var(--font-body); color: var(--ink);
-    }
-    .search input::placeholder { color: var(--ink-3); }
-    .search input::-webkit-search-cancel-button { display: none; }
-    .search kbd {
-      font: 600 12px/1 var(--font-body); color: var(--ink-3);
-      padding: 5px 9px; border-radius: 7px;
-      border: 1px solid var(--line); background: #fafafa;
-    }
-
     .theme-toggle {
       position: relative; flex: none;
       width: 78px; height: 40px; padding: 0;
@@ -272,8 +239,6 @@
     .theme-toggle .moon { right: 12px; stroke: var(--ink-3); }
 
     @media (max-width: 900px) {
-      .first-bar { padding: 14px 16px 0; }
-      .search kbd { display: none; }
     }
 
     /* ── About ─────────────────────────────────────── */
@@ -1956,9 +1921,6 @@
     html[data-theme="dark"] .nav-toggle:hover,
     html[data-theme="dark"] .nav a:hover { background: var(--hover); }
     html[data-theme="dark"] .nav a[aria-current="page"] { background: #f2f2f4; color: #101013; }
-    html[data-theme="dark"] .search { background: rgba(255,255,255,.04); }
-    html[data-theme="dark"] .search:focus-within { background: var(--field); box-shadow: 0 0 0 4px rgba(255,255,255,.08); }
-    html[data-theme="dark"] .search kbd { background: var(--chip); }
     html[data-theme="dark"] .tools, html[data-theme="dark"] .topbar { background: var(--glass); }
     html[data-theme="dark"] .tool { background: #1b1b20; }
     html[data-theme="dark"] .tool:hover { border-color: #44444c; }
@@ -2066,79 +2028,6 @@
     }
     .name-cycle.is-hinted { text-decoration-color: #2f5fd0; }
 
-    /* ═══ Search results ═══ */
-    .search { z-index: 12; }
-    .search-results {
-      position: absolute; left: 0; top: calc(100% + 8px);
-      width: min(440px, calc(100vw - 32px));
-      max-height: min(420px, 60vh); overflow-y: auto; overscroll-behavior: contain;
-      padding: 6px;
-      border-radius: 16px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      box-shadow: 0 2px 4px rgba(16,16,24,.06), 0 18px 40px -16px rgba(16,16,24,.3);
-    }
-    .search-results[hidden] { display: none; }
-    .sr-item {
-      display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 12px;
-      padding: 10px 12px; border-radius: 10px; cursor: pointer;
-    }
-    .sr-item[aria-selected="true"], .sr-item:hover { background: var(--hover, #f3f3f5); }
-    .sr-title { font-size: 14.5px; font-weight: 700; color: var(--ink); line-height: 1.35; }
-    .sr-title mark { background: none; color: inherit; text-decoration: underline; text-decoration-color: #2f5fd0; text-decoration-thickness: 2px; text-underline-offset: 3px; }
-    .sr-sub { grid-column: 1; font-size: 13px; color: var(--ink-3); line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .sr-kind {
-      grid-column: 2; grid-row: 1 / span 2; align-self: center;
-      font-size: 12px; font-weight: 700; color: var(--ink-2);
-      padding: 4px 10px; border-radius: 999px; background: var(--chip, #f2f2f4);
-    }
-    .sr-empty { padding: 14px 12px; font-size: 14px; color: var(--ink-2); line-height: 1.5; }
-    .sr-empty button {
-      font: inherit; font-weight: 600; color: var(--ink); background: none; border: 0; padding: 0;
-      text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
-    }
-
-    /* Where a result lands: a brief outline */
-    .search-hit { outline: 2px solid #2f5fd0; outline-offset: 6px; border-radius: 12px; transition: outline-color .6s ease; }
-    .search-hit.is-fading { outline-color: transparent; }
-
-    /* ═══ Search v2: results fused to the bar, browser-style rows ═══ */
-    .search.is-open {
-      border-radius: 22px 22px 0 0;
-      border-color: var(--line);
-      border-bottom-color: transparent;
-      background: var(--paper);
-      box-shadow: 0 2px 4px rgba(16,16,24,.05), 0 18px 40px -16px rgba(16,16,24,.3);
-    }
-    .search.is-open:focus-within { box-shadow: 0 2px 4px rgba(16,16,24,.05), 0 18px 40px -16px rgba(16,16,24,.3); }
-    .search-results {
-      left: -1px; right: -1px; top: 100%; width: auto;
-      margin: 0; padding: 4px 0 8px;
-      border-radius: 0 0 22px 22px;
-      border: 1px solid var(--line); border-top: 0;
-      background: var(--paper);
-      box-shadow: 0 22px 40px -18px rgba(16,16,24,.32);
-      max-height: min(380px, 60vh);
-    }
-    .search-results::before {
-      content: ""; display: block; height: 1px; margin: 0 14px 4px; background: var(--line);
-    }
-    .sr-item {
-      display: flex; align-items: center; gap: 12px;
-      padding: 9px 16px; border-radius: 0;
-    }
-    .sr-ico { width: 16px; height: 16px; flex: none; fill: none; stroke: var(--ink-3); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-    .sr-line { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; line-height: 1.4; }
-    .sr-title { font-weight: 400; color: var(--ink); }
-    .sr-title b { font-weight: 700; }
-    .sr-typed { font-weight: 400; }
-    .sr-title mark { all: unset; }
-    .sr-sub { display: inline; font-size: 13px; color: var(--ink-3); }
-    .sr-kind { flex: none; padding: 0; background: none; font-size: 12px; font-weight: 600; color: var(--ink-3); }
-    .sr-item[aria-selected="true"] .sr-ico, .sr-item:hover .sr-ico { stroke: var(--ink); }
-    .sr-empty { padding: 10px 16px 8px; }
-
-    /* Search lands section headers just below the top edge */
     .sec-head { scroll-margin-top: 28px; }
     @media (max-width: 900px) { .sec-head { scroll-margin-top: 92px; } }
 
@@ -2252,8 +2141,6 @@
     }
     @media (max-width: 900px) {
       .top-theme { display: grid; }
-      /* the phone bar already has a switch, so the hero bar keeps only search */
-      .first-bar .theme-toggle { display: none; }
     }
     body .sidebar .side-foot { margin-top: auto; }
 
@@ -2346,11 +2233,9 @@
     html[data-theme="dark"] .work-video .work-body  { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 18px 34px -12px rgba(0,0,0,.65); }
     .showcase .work:hover .work-body { box-shadow: 0 2px 4px rgba(16,16,24,.08), 0 22px 40px -14px rgba(16,16,24,.26); }
     html[data-theme="dark"] .showcase .work:hover .work-body { box-shadow: 0 22px 40px -12px rgba(0,0,0,.7); }
-    /* optical alignment: search icon lines up with the hero text edge */
-    @media (min-width: 901px) { .first-bar .search { margin-left: -14px; } }
 
     /* First section uses the same centred column as every other section */
-    .first > .first-bar, .first > .hero {
+    .first > .hero {
       width: 100%;
       max-width: calc(1160px + 2 * clamp(24px, 6vw, 112px));
       margin-inline: auto;
@@ -2404,7 +2289,6 @@
       html[data-theme="dark"] .topbar .theme-toggle .tt-knob { transform: translateX(34px); }
       .topbar .theme-toggle .sun { left: 10px; }
       .topbar .theme-toggle .moon { right: 10px; }
-      .first-bar { justify-content: flex-start; }
     }
     @media (min-width: 901px) and (max-width: 1100px) {
       .me-name b { display: none; }
@@ -2429,31 +2313,6 @@
       }
       .topnav-links a[aria-current="page"]::after { opacity: 1; transform: none; }
 
-      /* search lives in the bar; the hero bar above the headline is no longer needed */
-      .first > .first-bar { display: none; }
-      .topnav-search { position: relative; width: var(--sw, 210px); height: 36px; flex: none; }
-      .topnav-search .search {
-        position: absolute; right: 0; top: 0; z-index: 2;
-        width: var(--sw, 210px); height: 36px; margin: 0;
-        padding: 0 6px 0 12px; gap: 8px;
-        background: var(--paper);
-        transition: width .35s var(--ease-out), border-color .25s var(--ease-out), box-shadow .25s var(--ease-out), border-radius .2s var(--ease-out);
-      }
-      .topnav-search .search input { font-size: 13.5px; }
-      .topnav-search .search svg { width: 15px; height: 15px; }
-      .topnav-search .search kbd { padding: 3px 7px; font-size: 11.5px; }
-      .topnav-search .search:focus-within, .topnav-search .search.is-open { width: min(360px, 40vw); }
-      .topnav-search .search-results { max-height: min(420px, 70vh); }
-    }
-    /* narrower laptops: the search collapses to an icon until used */
-    @media (min-width: 901px) and (max-width: 1239px) {
-      .topnav-search { --sw: 36px; }
-      .topnav-search .search { padding: 0; justify-content: center; }
-      .topnav-search .search input, .topnav-search .search kbd { width: 0; padding: 0; opacity: 0; }
-      .topnav-search .search:focus-within, .topnav-search .search.is-open { padding: 0 6px 0 12px; justify-content: flex-start; }
-      .topnav-search .search:focus-within input, .topnav-search .search.is-open input { width: auto; opacity: 1; }
-      .topnav-search .search:focus-within kbd { display: none; }
-      .topnav-search .search { cursor: text; }
     }
 
     /* Taller top bar; section jumps land flush so the border above hides behind it */
@@ -2502,8 +2361,7 @@
       <a href="#contact">Message</a>
     </nav>
     <div class="topnav-actions">
-      <div class="topnav-search"></div>
-      <a class="topnav-cv" href="portfolio/JorenSanchezResume.pdf" download="JorenSanchezResume.pdf">
+      <a class="topnav-cv" href="portfolio/JorenSanchezResume.pdf" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 21h16"/></svg>
         Download CV
       </a>
@@ -2547,7 +2405,7 @@
         <svg viewBox="0 0 24 24"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/></svg>
         <span class="label">Message Me</span>
       </a>
-      <a href="portfolio/JorenSanchezResume.pdf" download="JorenSanchezResume.pdf" data-label="Download CV">
+      <a href="portfolio/JorenSanchezResume.pdf" target="_blank" rel="noopener" data-label="Download CV">
         <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 21h16"/></svg>
         <span class="label">Download CV</span>
       </a>
@@ -2562,15 +2420,6 @@
 
   <main class="main">
    <div class="first" id="home">
-    <!-- Search (visual only for now) and the day/night switch -->
-    <div class="first-bar">
-      <form class="search" role="search">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input type="search" placeholder="Search work, tools, services" aria-label="Search the site" role="combobox" aria-expanded="false" aria-controls="search-results" aria-autocomplete="list" autocomplete="off" />
-        <kbd aria-hidden="true">/</kbd>
-        <div class="search-results" id="search-results" role="listbox" aria-label="Search results" hidden></div>
-      </form>
-    </div>
     <section class="hero">
       <div class="hero-copy">
         <p class="hello reveal" style="--i:0">Hi, I'm <span class="name-cycle" tabindex="0" data-words="a web developer|a video editor|a social media grower|a BSIT student|a rice farmer|a jack of all trades" aria-label="Joren"><span class="nc-word">Joren</span></span></p>
@@ -4712,148 +4561,6 @@
     })();
   </script>
   <script>
-    // Site search: indexes the page itself, shows matches as you type, jumps to them.
-    (() => {
-      const form = document.querySelector('.search');
-      const input = form && form.querySelector('input');
-      const box = document.getElementById('search-results');
-      if (!input || !box) return;
-
-      const txt = (el) => (el ? el.textContent.replace(/\s+/g, ' ').trim() : '');
-      const items = [];
-      const add = (title, sub, kind, target, extra = '') => {
-        if (!title || !target) return;
-        if (items.some(i => i.title === title && i.kind === kind)) return;   // no duplicates
-        items.push({ title, sub, kind, target, hay: (title + ' ' + sub + ' ' + extra).toLowerCase(), t: title.toLowerCase() });
-      };
-
-      // Sections
-      [['about', 'About me', 'Who I am, school, AI'], ['projects', 'Projects', 'Websites, video, social, games'],
-       ['experience', 'Experience', 'Jobs, client work, field work'], ['process', 'How I work', 'Connect, plan, build, revise'],
-       ['certificates', 'Certificates & badges', 'Cisco Networking Academy'], ['contact', 'Message me', 'Email, hire, contact']]
-        .forEach(([id, t, sub]) => { const sec = document.getElementById(id); add(t, sub, 'Section', sec && (sec.querySelector('.sec-head') || sec), (id === 'contact' ? 'hire email work together ' : '') + (sec ? txt(sec.querySelector('h2')) : '')); });
-
-      // Projects
-      const desc = document.querySelector('.pg-desc');
-      if (desc) add(txt(desc.querySelector('h4')), 'Capstone · Hostel management system', 'Project', desc, txt(desc));
-      document.querySelectorAll('.projects .pf').forEach(f => {
-        const t = txt(f.querySelector('.pf-figure')) || (txt(f.querySelector('.pf-big')) + ' ' + txt(f.querySelector('.pf-text')).split(' ')[0]);
-        add(t, txt(f.querySelector('.pf-text')), 'Project', f, txt(f.querySelector('.pf-tags')));
-      });
-      const quote = document.querySelector('.projects .testimonial');
-      if (quote) add('Client review', 'What a client said about my edit', 'Project', quote, txt(quote) + ' testimonial feedback');
-
-      // Experience rows
-      document.querySelectorAll('.path-row').forEach(r => {
-        add(txt(r.querySelector('.path-role')).replace(txt(r.querySelector('.xp-tag')), '').trim(),
-            txt(r.querySelector('.path-org strong')) + ' · ' + txt(r.querySelector('.path-date')), 'Experience', r, txt(r));
-      });
-
-      // How I work steps
-      document.querySelectorAll('.step').forEach(st => add(txt(st.querySelector('h3')), txt(st.querySelector('.step-text p')), 'Process', st));
-
-      // Certificates + badge
-      document.querySelectorAll('.cert').forEach(c => add(txt(c.querySelector('.pf-figure')), txt(c.querySelector('.pf-text')), 'Certificate', c, txt(c.querySelector('.pf-tags'))));
-      const badge = document.querySelector('.badge-strip');
-      if (badge) add(txt(badge.querySelector('.badge-name')) + ' badge', txt(badge.querySelector('.badge-meta')), 'Badge', badge);
-
-      // Tools (first copy in the strip)
-      const toolList = document.querySelector('.tool-list:not([aria-hidden])');
-      if (toolList) toolList.querySelectorAll('.tool').forEach(t => add(txt(t), 'In my toolkit', 'Tool', t));
-
-      let results = [], active = -1;
-      const esc = (s) => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-      const mark = (title, q) => {
-        const i = title.toLowerCase().indexOf(q);
-        if (i < 0) return '<b>' + esc(title) + '</b>';
-        return '<b>' + esc(title.slice(0, i)) + '</b>' + '<span class="sr-typed">' + esc(title.slice(i, i + q.length)) + '</span>' + '<b>' + esc(title.slice(i + q.length)) + '</b>';
-      };
-      const ICON = {
-        Section: '<path d="M4 6h16M4 12h16M4 18h10"/>',
-        Project: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
-        Experience: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
-        Process: '<path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.5"/><circle cx="4.5" cy="12" r="1.5"/><circle cx="4.5" cy="18" r="1.5"/>',
-        Certificate: '<circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 7 5-3 5 3-1.5-7"/>',
-        Badge: '<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/>',
-        Tool: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/>'
-      };
-      const setOpen = (open) => { box.hidden = !open; form.classList.toggle('is-open', open); input.setAttribute('aria-expanded', String(open)); };
-
-      const render = () => {
-        const q = input.value.trim().toLowerCase();
-        if (!q) { setOpen(false); results = []; return; }
-        const words = q.split(/\s+/);
-        results = items
-          .filter(it => words.every(w => it.hay.includes(w)))
-          .map(it => ({ it, score: (it.t === q ? 20 : 0) + (it.t.replace(/s$/, '') === q.replace(/s$/, '') ? 12 : 0) + (it.t.startsWith(q) ? 6 : 0) + (it.t.split(/\W+/).some(w => w.startsWith(q)) ? 3 : 0) + (it.t.includes(q) ? 2 : 0) + (it.kind === 'Section' ? 1 : 0) }))
-          .sort((a, b) => b.score - a.score)
-          .slice(0, 8).map(r => r.it);
-        active = results.length ? 0 : -1;
-        if (!results.length) {
-          box.innerHTML = '<p class="sr-empty">No matches for “' + esc(input.value.trim()) + '”. Try ' +
-            ['video', 'Laravel', 'Cisco'].map(w => '<button type="button" data-try="' + w + '">' + w + '</button>').join(', ') + '.</p>';
-        } else {
-          box.innerHTML = results.map((it, i) =>
-            '<div class="sr-item" role="option" id="sr-' + i + '" aria-selected="' + (i === active) + '">' +
-            '<svg class="sr-ico" viewBox="0 0 24 24" aria-hidden="true">' + (ICON[it.kind] || ICON.Section) + '</svg>' +
-            '<span class="sr-line"><span class="sr-title">' + mark(it.title, q) + '</span>' +
-            (it.sub ? '<span class="sr-sub"> · ' + esc(it.sub) + '</span>' : '') + '</span>' +
-            '<span class="sr-kind">' + esc(it.kind) + '</span></div>').join('');
-        }
-        input.setAttribute('aria-activedescendant', active >= 0 ? 'sr-' + active : '');
-        setOpen(true);
-      };
-      const highlight = () => {
-        [...box.querySelectorAll('.sr-item')].forEach((el, i) => el.setAttribute('aria-selected', String(i === active)));
-        input.setAttribute('aria-activedescendant', active >= 0 ? 'sr-' + active : '');
-        const el = box.querySelector('#sr-' + active); if (el) el.scrollIntoView({ block: 'nearest' });
-      };
-
-      const go = (it) => {
-        if (!it) return;
-        setOpen(false);
-        input.blur();
-        // a tool lives in the moving strip: stop it so the result stays put
-        if (it.kind === 'Tool') {
-          const tools = document.querySelector('.tools');
-          const sw = document.querySelector('.scroll-toggle');
-          if (tools && !tools.classList.contains('is-still') && sw) sw.click();
-        }
-        it.target.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-          block: it.kind === 'Section' ? 'start' : 'center', inline: 'nearest' });
-        it.target.classList.remove('is-fading');
-        it.target.classList.add('search-hit');
-        setTimeout(() => it.target.classList.add('is-fading'), 1600);
-        setTimeout(() => it.target.classList.remove('search-hit', 'is-fading'), 2300);
-      };
-
-      input.addEventListener('input', render);
-      input.addEventListener('focus', () => { if (input.value.trim()) render(); });
-      input.addEventListener('keydown', e => {
-        if (e.key === 'ArrowDown' && results.length) { e.preventDefault(); active = (active + 1) % results.length; highlight(); }
-        else if (e.key === 'ArrowUp' && results.length) { e.preventDefault(); active = (active - 1 + results.length) % results.length; highlight(); }
-        else if (e.key === 'Escape') { setOpen(false); }
-      });
-      form.addEventListener('submit', e => { e.preventDefault(); if (results.length) go(results[Math.max(0, active)]); });
-      box.addEventListener('mousedown', e => e.preventDefault());   // keep focus while clicking a result
-      box.addEventListener('click', e => {
-        const t = e.target.closest('[data-try]');
-        if (t) { input.value = t.dataset.try; render(); input.focus(); return; }
-        const row = e.target.closest('.sr-item');
-        if (row) go(results[+row.id.slice(3)]);
-      });
-      document.addEventListener('click', e => { if (!form.contains(e.target)) setOpen(false); });
-
-      // "/" jumps into search (unless already typing somewhere)
-      document.addEventListener('keydown', e => {
-        if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return;
-        const t = e.target;
-        if (t.closest && t.closest('input, textarea, [contenteditable="true"]')) return;
-        e.preventDefault(); input.focus();
-      });
-    })();
-  </script>
-  <script>
     // Visitor idle detector: 30 seconds without input → 'afk-start'; any input → 'afk-end'.
     (() => {
       const LIMIT = 30000;
@@ -4866,25 +4573,6 @@
       ['pointermove', 'pointerdown', 'keydown', 'wheel', 'scroll', 'touchstart'].forEach(ev =>
         addEventListener(ev, back, { passive: true }));
       back();
-    })();
-  </script>
-  <script>
-    // One search form, placed in the top bar on desktop and above the hero on phones.
-    (() => {
-      const form = document.querySelector('.search');
-      const navSlot = document.querySelector('.topnav-search');
-      const heroSlot = document.querySelector('.first-bar');
-      if (!form || !navSlot || !heroSlot) return;
-      const mq = matchMedia('(min-width: 901px)');
-      const place = () => {
-        const target = mq.matches ? navSlot : heroSlot;
-        if (form.parentElement !== target) target.prepend(form);
-        form.querySelector('input').placeholder = mq.matches ? 'Search…' : 'Search work, tools, services';
-      };
-      place();
-      mq.addEventListener('change', place);
-      // clicking the collapsed icon opens it
-      form.addEventListener('click', () => form.querySelector('input').focus());
     })();
   </script>
 </body>
