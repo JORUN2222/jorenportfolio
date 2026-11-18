@@ -2542,7 +2542,7 @@
         <svg viewBox="0 0 24 24"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/></svg>
         <span class="label">Message Me</span>
       </a>
-      <a href="cv.pdf" download data-label="Download CV">
+      <a href="portfolio/JorenSanchezResume.pdf" download="JorenSanchezResume.pdf" data-label="Download CV">
         <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 21h16"/></svg>
         <span class="label">Download CV</span>
       </a>
@@ -3147,14 +3147,14 @@
         <div class="contact-grid">
           <aside class="contact-card">
             <p class="cc-label">Email me directly</p>
-            <a class="cc-email" href="mailto:andeejoren179@gmail.com">andeejoren179@gmail.com</a>
+            <a class="cc-email" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=andeejoren179@gmail.com" target="_blank" rel="noopener">andeejoren179@gmail.com</a>
             <p class="cc-intro">
               Have a project in mind? Send a short note about what you need and when you need it.
               Whether it's a website, a video edit or a page to grow, I'm happy to talk it through,
               in English or Filipino.
             </p>
             <div class="cc-actions">
-              <a class="btn btn-primary cc-btn" href="mailto:andeejoren179@gmail.com">
+              <a class="btn btn-primary cc-btn" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=andeejoren179@gmail.com" target="_blank" rel="noopener">
                 Send an email
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
               </a>
@@ -3202,11 +3202,11 @@
                 Send message
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
               </button>
-              <p class="cf-note" aria-live="polite">Sends straight to my inbox.</p>
+              <p class="cf-note" aria-live="polite">Opens Gmail with your message ready to send.</p>
             </div>
             <div class="cf-done" role="status" tabindex="-1" hidden>
               <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m7.5 12.5 3 3 6-6.5"/></svg>
-              <h3>Message sent.</h3>
+              <h3>Almost there.</h3>
               <p class="cf-done-text">Thanks! I'll get back to you by email.</p>
               <button class="btn btn-ghost cf-again" type="button">Send another message</button>
             </div>
@@ -3963,65 +3963,34 @@
         return !first;
       };
       form.addEventListener('input', e => { if (e.target.closest('.has-error')) setError(e.target, ''); });
-      const ENDPOINT = 'https://formsubmit.co/ajax/' + TO;
-      const btn = form.querySelector('.cf-submit .btn');
-      const btnHTML = btn.innerHTML;
+      const gmailFor = (subject, body) => 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(TO)
+        + '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
       const note = form.querySelector('.cf-note');
       const noteText = note.textContent;
       const done = form.querySelector('.cf-done');
       const fields = [...form.children].filter(el => el !== done && !el.classList.contains('cf-honey'));
-      const mailtoFor = (subject, body) => 'mailto:' + TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 
-      const setSending = (on) => {
-        btn.disabled = on;
-        btn.setAttribute('aria-busy', String(on));
-        btn.innerHTML = on ? '<span class="cf-spin" aria-hidden="true"></span>Sending…' : btnHTML;
-      };
-      const showDone = (name, email) => {
-        done.querySelector('.cf-done-text').textContent =
-          'Thanks, ' + name + '! Your message is in my inbox. I\'ll reply to ' + email + '.';
-        fields.forEach(el => el.hidden = true);
-        done.hidden = false;
-        done.focus();
-      };
-
-      form.addEventListener('submit', async e => {
+      form.addEventListener('submit', e => {
         e.preventDefault();
-        if (btn.disabled || !check()) return;
+        if (!check()) return;
         const f = form.elements;
         if (f._honey && f._honey.value) return;                 // a bot filled the hidden field
         const name = f.name.value.trim(), email = f.email.value.trim(), message = f.message.value.trim();
         const needs = [...form.querySelectorAll('input[name="need"]:checked')].map(i => i.value);
-        const subject = 'Portfolio inquiry' + (needs.length ? ': ' + needs.join(', ') : '');
-        note.classList.remove('is-error', 'is-sent');
-        note.textContent = noteText;
-        setSending(true);
-        try {
-          const res = await fetch(ENDPOINT, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({
-              name, email, message,
-              needs: needs.join(', ') || 'Not specified',
-              _subject: subject, _replyto: email, _template: 'table', _captcha: 'false'
-            })
-          });
-          const data = await res.json().catch(() => ({}));
-          if (!res.ok || String(data.success) === 'false') throw new Error(data.message || 'Send failed');
-          setSending(false);
-          showDone(name, email);
-          document.dispatchEvent(new CustomEvent('message-sent', { detail: { name } }));
-        } catch (err) {
-          console.warn('Contact form did not send:', err && err.message);
-          setSending(false);
-          note.classList.add('is-error');
-          note.innerHTML = '';
-          note.append("Couldn't send just now. ");
-          const a = document.createElement('a');
-          a.href = mailtoFor(subject, message + '\n\n' + name + '\n' + email);
-          a.textContent = 'Email me instead';
-          note.append(a, ' and your message will be ready to go.');
-        }
+        const subject = 'Portfolio inquiry' + (needs.length ? ': ' + needs.join(', ') : '') + ' from ' + name;
+        const body = message + '\n\n' + (needs.length ? 'Needs: ' + needs.join(', ') + '\n' : '') + name + '\n' + email;
+        const url = gmailFor(subject, body);
+        window.open(url, '_blank', 'noopener');
+        const text = done.querySelector('.cf-done-text');
+        text.textContent = 'Thanks, ' + name + '! Gmail opened in a new tab with your message. Press Send there and I\'ll reply to ' + email + '. ';
+        const a = document.createElement('a');
+        a.href = url; a.target = '_blank'; a.rel = 'noopener';
+        a.textContent = 'Open Gmail again';
+        text.append(a);
+        fields.forEach(el => el.hidden = true);
+        done.hidden = false;
+        done.focus();
+        document.dispatchEvent(new CustomEvent('message-sent', { detail: { name } }));
       });
 
       form.querySelector('.cf-again').addEventListener('click', () => {
