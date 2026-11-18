@@ -2161,6 +2161,7 @@
     html[data-theme="dark"] .cf-done svg { stroke: #6fdc9a; }
     .cf-done h3 { margin: 4px 0 0; font-family: var(--font-display); font-weight: 700; font-size: 26px; color: var(--ink); }
     .cf-done p { margin: 0 0 8px; color: var(--ink-2); font-size: 15.5px; line-height: 1.6; max-width: 46ch; }
+    .cf-done-actions { display: flex; flex-wrap: wrap; gap: 10px; }
     .cf-again { border: 0; cursor: pointer; font: inherit; font-weight: 600; font-size: 14.5px; }
     @media (prefers-reduced-motion: reduce) { .cf-spin { animation-duration: 2s; } }
     .contact-form [hidden] { display: none !important; }
@@ -3206,9 +3207,15 @@
             </div>
             <div class="cf-done" role="status" tabindex="-1" hidden>
               <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m7.5 12.5 3 3 6-6.5"/></svg>
-              <h3>Almost there.</h3>
+              <h3>One last step: press Send in Gmail.</h3>
               <p class="cf-done-text">Thanks! I'll get back to you by email.</p>
-              <button class="btn btn-ghost cf-again" type="button">Send another message</button>
+              <div class="cf-done-actions">
+                <a class="btn btn-primary cf-gmail" href="#" target="_blank" rel="noopener">
+                  Open Gmail
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+                </a>
+                <button class="btn btn-ghost cf-again" type="button">Start over</button>
+              </div>
             </div>
           </form>
         </div>
@@ -3981,12 +3988,9 @@
         const body = message + '\n\n' + (needs.length ? 'Needs: ' + needs.join(', ') + '\n' : '') + name + '\n' + email;
         const url = gmailFor(subject, body);
         window.open(url, '_blank', 'noopener');
-        const text = done.querySelector('.cf-done-text');
-        text.textContent = 'Thanks, ' + name + '! Gmail opened in a new tab with your message. Press Send there and I\'ll reply to ' + email + '. ';
-        const a = document.createElement('a');
-        a.href = url; a.target = '_blank'; a.rel = 'noopener';
-        a.textContent = 'Open Gmail again';
-        text.append(a);
+        done.querySelector('.cf-done-text').textContent =
+          'Thanks, ' + name + '! Your message is waiting in Gmail. Press Send there and I\'ll reply to ' + email + '. If the Gmail tab didn\'t open, use the button below.';
+        done.querySelector('.cf-gmail').href = url;
         fields.forEach(el => el.hidden = true);
         done.hidden = false;
         done.focus();
