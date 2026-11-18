@@ -9,3 +9,14 @@ work/joren-portrait.jpg
 
 # Design tool settings
 .impeccable/
+
+# Original teaser (the page uses the web-sized work/echoes-*.mp4)
+ECDTEASER/
+
+# Certificate PDFs carry the email address in their file names; the page uses work/certs/*.jpg
+work/certificates/
+
+# Unused source images
+work/blender.jfif
+work/download.jfif
+work/echoes-detective.png
